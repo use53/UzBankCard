@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar_singin"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/purple_700"
+        app:navigationIcon="@drawable/ic_back_24"/>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/lc_top_singin"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="0.9"
+        android:background="@color/purple_700"
+        android:orientation="vertical">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_text_singin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:text="Parolni \ntiklash"
+            android:textColor="@color/white"
+            android:textSize="22sp" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/lc_wave_singin"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="0.9"
+        android:orientation="vertical">
+
+        <View
+            android:id="@+id/vawe_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/ic_wave_singup" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/ls_passlogin_singin"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="0.5"
+        android:orientation="vertical">
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.Design.TextInputLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="15dp"
+            app:errorEnabled="true"
+            android:id="@+id/til_singin_name"
+            android:theme="@style/Widget.Design.TextInputLayout"
+            android:textColorHint="@android:color/black"
+            app:hintTextColor="@color/black"
+            app:startIconDrawable="@drawable/ic_baseline_people_24">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/gb_name_singin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:backgroundTint="@android:color/black"
+                android:hint="@string/first_name"
+                android:imeOptions="actionNext"
+                android:textColor="@android:color/black"
+                android:textSize="18sp" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.Design.TextInputLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/til_singin_pass"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="15dp"
+            android:theme="@style/Widget.Design.TextInputLayout"
+            android:textColorHint="@android:color/black"
+            app:hintTextColor="@color/black"
+            app:passwordToggleEnabled="true"
+            app:errorEnabled="true"
+            app:passwordToggleTint="@color/black"
+            app:startIconDrawable="@drawable/ic_baseline_lock_24">
+
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/gb_pass_singin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:backgroundTint="@android:color/black"
+                android:hint="@string/password"
+                android:imeOptions="actionNext"
+                android:inputType="numberPassword"
+                android:textColor="@android:color/black"
+                android:textSize="18sp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/gb_next_singin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="5dp"
+            android:enabled="true"
+            android:text="@string/title_next"
+            android:textColor="@color/white"
+            android:background="@color/purple_1000"
+            app:cornerRadius="10dp"
+            app:pressedGlowSize="10dp"
+            app:unpressedGlowSize="5dp" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+</androidx.appcompat.widget.LinearLayoutCompat>

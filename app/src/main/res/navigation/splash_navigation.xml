@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/splash_navigation"
+    app:startDestination="@id/first_navigation">
+
+    <fragment
+        android:id="@+id/first_navigation"
+         tools:layout="@layout/splash_fragment"
+        android:name="uz.fintech.uzbankcard.ui.SplashFragment"/>
+
+    <fragment
+        android:id="@+id/rigentry_navigation"
+        android:name="uz.fintech.uzbankcard.ui.entry.RigisterEntryFragment"
+        tools:layout="@layout/rigisentry_fragment"/>
+    <fragment
+        android:id="@+id/singup_navigation"
+        android:name="uz.fintech.uzbankcard.ui.singup.SingUpFragment"
+        tools:layout="@layout/singup_fragment"/>
+    <fragment
+        android:id="@+id/codesave_navigation"
+        android:name="uz.fintech.uzbankcard.ui.codesave.CodeSaveFragment"
+        tools:layout="@layout/codesave_fragment"/>
+    <fragment
+        android:id="@+id/singin_navigation"
+        android:name="uz.fintech.uzbankcard.ui.singin.SinginFragment"
+        tools:layout="@layout/singin_fragment"/>
+    <fragment
+        android:id="@+id/code_get_navigation"
+        android:name="uz.fintech.uzbankcard.ui.codeget.CodeGetFragment"
+        tools:layout="@layout/code_get_fragment"/>
+</navigation>

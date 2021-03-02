@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/blue_grey_50"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:passcode="http://schemas.android.com/tools"
+    android:orientation="vertical">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/code_get_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/purple_700"
+        app:navigationIcon="@drawable/ic_back_24"
+        />
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/top_get_save"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/top_code_color"
+        android:layout_weight="1">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_codeget"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Kirish uchun kod"
+            android:textColor="@color/white"
+            android:gravity="center_horizontal"
+            android:layout_gravity="center"
+            android:layout_marginBottom="10dp"
+            android:textSize="20sp"
+            />
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/code_get_indicator"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="0.9">
+
+        <com.nirigo.mobile.view.passcode.PasscodeIndicator
+            android:id="@+id/passcode_get_indicator"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/instruction"
+            app:indicator_background="@drawable/shape_passcode_indicator_ios"
+            app:indicator_background_active="@drawable/shape_passcode_indicator_fill_ios"
+            app:layout_constraintTop_toBottomOf="@+id/instruction"
+            passcode:indicator_length="4"
+            android:layout_gravity="center"
+            passcode:indicator_level="0"
+           app:indicator_margin="10dp"
+            app:indicator_size="30dp"
+            />
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/lc_code_get_button"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/button_code_color"
+        android:layout_marginBottom="-70dp"
+        android:layout_weight="1">
+     <androidx.appcompat.widget.AppCompatTextView
+         android:id="@+id/tv_codeget_onclick"
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:text="@string/tv_code_get"
+         android:layout_marginTop="15dp"
+         android:textSize="16dp"
+         android:textColor="@color/white"
+         android:gravity="center"/>
+    </androidx.appcompat.widget.LinearLayoutCompat>
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/code_get_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/keyb_code_color"
+        android:layout_weight="0.5">
+
+        <com.nirigo.mobile.view.passcode.PasscodeView
+            android:id="@+id/passcode_get_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="40dp"
+            android:layout_below="@id/passcode_indicator"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="20dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/passcode_indicator" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+</androidx.appcompat.widget.LinearLayoutCompat>

@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">UzBankCard</string>
+    <string name="til_tanlash">Til tanlash</string>
+    <string name="phone_number">97 778 35 33</string>
+    <string name="first_name">Ism</string>
+    <string name="title_next">Keyingisi</string>
+    <string name="agree_terms_of_use">Malumotlardan foydalanishga roziman</string>
+    <string name="password">Parol</string>
+    <string name="error_name_req">Ism xato!</string>
+    <string name="error_phone_req">Telefon raqam 9 ta raqam bulishi shart!</string>
+    <string name="error_password_req">Parol 8 raqamdan kam bulmasligi kerak</string>
+    <string name="error_terms_of_use_agreement">Foydalanish shartlariga rozilik bering!</string>
+    <string name="error_singin_name">Ism xato</string>
+    <string name="error_singin_pass">parol xato</string>
+    <string name="tv_code_get">Parolni unitdingizmi</string>
+</resources>
