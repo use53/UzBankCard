@@ -12,6 +12,7 @@ import uz.fintech.uzbankcard.MainActivity
 import uz.fintech.uzbankcard.R
 import uz.fintech.uzbankcard.common.codeadapter.PasscodeAdapter
 import uz.fintech.uzbankcard.common.lazyFast
+import uz.fintech.uzbankcard.navui.NavigationActivity
 import uz.fintech.uzbankcard.utils.PreferenceManager
 
 class CodeSaveFragment :Fragment(R.layout.codesave_fragment), PasscodeView.OnItemClickListener,
@@ -56,7 +57,7 @@ class CodeSaveFragment :Fragment(R.layout.codesave_fragment), PasscodeView.OnIte
 
     override fun onClick(v: View?) {
         preference.isCallNumber=true
-        val intent=Intent(requireContext(),MainActivity::class.java)
+        val intent=Intent(requireContext(),NavigationActivity::class.java)
         startActivity(intent)
         requireActivity().finish()
     }

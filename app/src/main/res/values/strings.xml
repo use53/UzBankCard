@@ -13,4 +13,10 @@
     <string name="error_singin_name">Ism xato</string>
     <string name="error_singin_pass">parol xato</string>
     <string name="tv_code_get">Parolni unitdingizmi</string>
+    <string name="title_activity_navigation">MainActivity</string>
+    <string name="title_home">Home</string>
+    <string name="title_payments">tulov</string>
+    <string name="title_cards">kartalar</string>
+    <string name="title_map">xarita</string>
+    <string name="title_report">Hisobot</string>
 </resources>

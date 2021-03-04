@@ -13,6 +13,7 @@ import uz.fintech.uzbankcard.MainActivity
 import uz.fintech.uzbankcard.R
 import uz.fintech.uzbankcard.common.codeadapter.PasscodeAdapter
 import uz.fintech.uzbankcard.common.lazyFast
+import uz.fintech.uzbankcard.navui.NavigationActivity
 
 class CodeGetFragment :Fragment(R.layout.code_get_fragment), PasscodeView.OnItemClickListener,
     View.OnClickListener {
@@ -45,7 +46,7 @@ class CodeGetFragment :Fragment(R.layout.code_get_fragment), PasscodeView.OnItem
                 passcode_get_indicator.indicatorLevel=stringBuilder!!.length
                 if (stringBuilder!!.length== passcode_get_indicator.getIndicatorLength()){
                     Toast.makeText(requireContext(), list!!.joinToString(""), Toast.LENGTH_SHORT).show()
-                    val intent=Intent(requireContext(),MainActivity::class.java)
+                    val intent=Intent(requireContext(),NavigationActivity::class.java)
                     startActivity(intent)
                     requireActivity().finish()
                 }
