@@ -23,9 +23,29 @@
             android:layout_height="300dp"
             motion:layout_constraintStart_toStartOf="parent"
            motion:layout_constraintBottom_toBottomOf="parent">
-        <CustomAttribute
+        <!--<CustomAttribute
             motion:attributeName="Saturation"
-            motion:customFloatValue="1" />
+            motion:customFloatValue="1" />-->
+        </Constraint>
+        <Constraint
+            android:id="@id/graphic"
+            android:layout_width="match_parent"
+            android:layout_height="500dp"
+            motion:layout_constraintStart_toStartOf="parent"
+             motion:layout_constraintBottom_toBottomOf="parent">
+          <!--  <CustomAttribute
+                motion:attributeName="Saturation"
+                motion:customFloatValue="1" />-->
+        </Constraint>
+
+        <Constraint
+            android:id="@id/home_tollbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            motion:layout_constraintTop_toTopOf="parent">
+           <!-- <CustomAttribute
+                motion:attributeName="Saturation"
+                motion:customFloatValue="1"/>-->
         </Constraint>
     </ConstraintSet>
 
@@ -33,12 +53,33 @@
         <Constraint
             android:id="@id/home_motion"
             android:layout_width="match_parent"
-            android:layout_height="300dp"
+            android:layout_height="match_parent"
            motion:layout_constraintTop_toTopOf="parent"
             motion:layout_constraintEnd_toEndOf="parent">
-        <CustomAttribute
+     <!--   <CustomAttribute
             motion:attributeName="Saturation"
-            motion:customFloatValue="0" />
+            motion:customFloatValue="0" />-->
+        </Constraint>
+        <Constraint
+            android:id="@id/graphic"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            motion:layout_constraintBottom_toBottomOf="parent"
+            motion:layout_constraintEnd_toEndOf="parent">
+            <!--<CustomAttribute
+                motion:attributeName="Saturation"
+                motion:customFloatValue="0" />-->
+        </Constraint>
+
+        <Constraint
+            android:id="@id/home_tollbar"
+            android:layout_height="?attr/actionBarSize"
+            android:layout_width="match_parent"
+            motion:layout_constraintBottom_toBottomOf="parent"
+            motion:layout_constraintEnd_toEndOf="parent">
+           <!-- <CustomAttribute
+                motion:attributeName="Saturation"
+                motion:customFloatValue="0"/>-->
         </Constraint>
     </ConstraintSet>
 </MotionScene>

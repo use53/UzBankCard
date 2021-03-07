@@ -19,4 +19,11 @@
     <string name="title_cards">kartalar</string>
     <string name="title_map">xarita</string>
     <string name="title_report">Hisobot</string>
+    <string name="home_title_plus">qo\'shish</string>
+    <string name="card_add_number">#### #### #### ####</string>
+    <string name="ed_date_year">**/**</string>
+    <string name="toolbar_add_card">Karta qo\'shish</string>
+    <string name="card_number">karta raqami</string>
+    <string name="card_interval"> ** / ** </string>
+    <string name="search_button">izlash</string>
 </resources>

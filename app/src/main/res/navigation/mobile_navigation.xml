@@ -29,4 +29,8 @@
         android:id="@+id/map_navigation"
         android:name="uz.fintech.uzbankcard.navui.twoui.map.MapFragment"
         tools:layout="@layout/map_fragment"/>
+    <fragment
+        android:id="@+id/add_card_navigation"
+        android:name="uz.fintech.uzbankcard.navui.twoui.addcard.AddCardFragment"
+        tools:layout="@layout/add_card_fragment"/>
 </navigation>

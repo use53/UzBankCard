@@ -9,6 +9,10 @@
     <color name="white">#FFFFFFFF</color>
     <color name="purple_1000">#8A56AC</color>
     <color name="blue_grey_400">#9599B3</color>
+    <color name="blue_grey_20">#C1C3CF</color>
     <color name="blue_grey_50">#F1F1F3</color>
+    <color name="blue_grey_100">#E3EBEE</color>
+    <color name="blue_grey_800">#3A4348</color>
+    <color name="blue_grey_900">#23282B</color>
 
 </resources>

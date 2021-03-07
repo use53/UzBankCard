@@ -5,13 +5,27 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/blue_grey_20"
     app:layoutDescription="@xml/home_fragment_scene"
     tools:context=".navui.twoui.home.HomeFragment">
 
 
+       <androidx.appcompat.widget.Toolbar
+           android:id="@+id/home_tollbar"
+           android:layout_width="match_parent"
+           app:navigationIcon="@drawable/ic_back_24"
+           android:layout_height="?attr/actionBarSize"
+           />
+       <include
+           android:id="@+id/graphic"
+           layout="@layout/graphic_fragment"
+           />
 
        <include
            android:id="@+id/home_motion"
+           android:layout_height="wrap_content"
+           android:layout_width="wrap_content"
+           android:layout_marginTop="15dp"
            layout="@layout/home_card_fragment"
            />
 </androidx.constraintlayout.motion.widget.MotionLayout>

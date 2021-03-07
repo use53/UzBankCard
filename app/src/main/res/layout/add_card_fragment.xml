@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_height="match_parent">
+
+    <androidx.appcompat.widget.Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@drawable/top_code_color"
+        android:textAlignment="center"
+        android:layout_alignParentTop="true"
+        app:titleTextColor="@color/white">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/toolbar_add_card"
+            android:textSize="16sp"
+            android:textColor="@color/white"
+            android:gravity="center"/>
+    </androidx.appcompat.widget.Toolbar>
+
+
+    <io.armcha.elasticview.ElasticView
+       android:id="@+id/ev_add_card"
+        android:layout_width="match_parent"
+        android:layout_height="210dp"
+        app:flexibility="10"
+        android:layout_marginEnd="20dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/bank_card_look"
+        app:cardCornerRadius="15dp"
+        android:padding="5dp"
+        app:cardElevation="20dp">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/bank_card_look">
+
+<androidx.appcompat.widget.AppCompatImageView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:id="@+id/image_card_icon"
+    android:src="@drawable/icon_bank_card"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
+    android:layout_marginTop="10dp"
+    android:layout_marginEnd="10dp" />
+
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/card_add_money"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="40dp"
+                android:layout_marginTop="10dp"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/image_card_icon"
+                />
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/card_add_number"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="40dp"
+                android:layout_marginTop="10dp"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                android:lines="1"
+                android:text="#### #### #### ####"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/card_add_money"
+                />
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/card_add_date_year"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="40dp"
+                android:layout_marginTop="10dp"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                android:lines="1"
+                android:text="**/**"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/card_add_number"
+                />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/card_surname"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="40dp"
+                android:layout_marginTop="10dp"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                android:lines="1"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/card_add_date_year"
+                />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </io.armcha.elasticview.ElasticView>
+
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.Design.TextInputLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginTop="20dp"
+        android:id="@+id/et_card_number"
+        android:theme="@style/Widget.Design.TextInputLayout"
+        android:textColorHint="@android:color/black"
+        app:hintTextColor="@color/black"
+        app:endIconDrawable="@drawable/credit_card_24">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/ed_card_add"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:backgroundTint="@android:color/black"
+            android:hint="@string/card_number"
+            android:lines="1"
+            android:maxLength="19"
+            android:imeOptions="actionNext"
+            android:textColor="@android:color/black"
+            android:textSize="18sp" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/ed_card_interval"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:lines="1"
+        android:maxLength="5"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:hint="@string/card_interval"
+        />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/card_add_button"
+        android:layout_width="wrap_content"
+        android:layout_gravity="center"
+        android:background="@color/purple_1000"
+        android:text="@string/search_button"
+        android:layout_marginTop="10dp"
+        android:textColor="@color/white"
+        android:layout_height="wrap_content"/>
+</androidx.appcompat.widget.LinearLayoutCompat>
