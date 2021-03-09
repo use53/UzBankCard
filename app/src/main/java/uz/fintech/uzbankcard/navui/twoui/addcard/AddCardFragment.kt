@@ -36,11 +36,11 @@ class AddCardFragment ():Fragment(R.layout.add_card_fragment),
     private fun itemAddInterval(text: String) {
         val textParsed = when {
             text.length >= 3 -> {
-                text.substring(0, 2) + "/" + text.substring(2)
+                text.substring(0, 2) + " / " + text.substring(2)
             }
             else -> text
         }
-        card_add_date_year.text=text
+        card_add_date_year.text=textParsed
     }
 
     private fun tvItemCardNumber(text: String) {
