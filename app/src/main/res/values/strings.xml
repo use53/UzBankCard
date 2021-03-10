@@ -26,4 +26,6 @@
     <string name="card_number">karta raqami</string>
     <string name="card_interval"> ** / ** </string>
     <string name="search_button">izlash</string>
+    <string name="error_offline">Internetda uzilish</string>
+    <string name="addcard_toolbar">Qo\'shish</string>
 </resources>
