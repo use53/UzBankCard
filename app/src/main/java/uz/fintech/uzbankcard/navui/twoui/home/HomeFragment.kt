@@ -29,8 +29,8 @@ class HomeFragment : Fragment(R.layout.home_fragment),IHomeOnClick, Toolbar.OnMe
         super.onViewCreated(view, savedInstanceState)
 
         val list= mutableListOf<CardModel>()
-        list.add(CardModel())
-        list.add(CardModel())
+        /*list.add(CardModel())
+        list.add(CardModel())*/
         cardHomeAdapter= CardHomeAdapter(requireContext(),list,this)
         home_rec.layoutManager= LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL,false)
         home_rec.adapter=cardHomeAdapter

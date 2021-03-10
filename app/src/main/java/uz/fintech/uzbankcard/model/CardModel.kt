@@ -1,9 +1,10 @@
 package uz.fintech.uzbankcard.model
 
 class CardModel (
-        val firstname:String="",
-        val surname:String="",
-        val cardnum:String="",
-        val money:Int=0,
-        val interval:String=""
+       val firstname:String="",
+       val surname:String="",
+       val cardname:String="",
+       val money:String="",
+       val cardnum:String="",
+       val cardid:Long=0L
 )

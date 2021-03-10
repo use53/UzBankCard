@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.appcompat.widget.LinearLayoutCompat
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
@@ -7,21 +7,26 @@
     android:layout_height="match_parent">
 
     <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
+        android:layout_alignParentTop="true"
         android:background="@drawable/top_code_color"
         android:textAlignment="center"
-        android:layout_alignParentTop="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         app:titleTextColor="@color/white">
 
         <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center"
             android:text="@string/toolbar_add_card"
-            android:textSize="16sp"
             android:textColor="@color/white"
-            android:gravity="center"/>
+            android:textSize="16sp" />
     </androidx.appcompat.widget.Toolbar>
+
+
 
 
     <io.armcha.elasticview.ElasticView
@@ -34,6 +39,7 @@
         android:layout_marginTop="20dp"
         android:background="@drawable/bank_card_look"
         app:cardCornerRadius="15dp"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
         android:padding="5dp"
         app:cardElevation="20dp">
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -59,7 +65,7 @@
                 android:layout_marginStart="40dp"
                 android:layout_marginTop="10dp"
                 android:textColor="@color/white"
-                android:textSize="18sp"
+                android:textSize="22sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/image_card_icon"
                 />
@@ -70,7 +76,7 @@
                 android:layout_marginStart="40dp"
                 android:layout_marginTop="10dp"
                 android:textColor="@color/white"
-                android:textSize="18sp"
+                android:textSize="16sp"
                 android:lines="1"
                 android:text="#### #### #### ####"
                 app:layout_constraintStart_toStartOf="parent"
@@ -83,7 +89,7 @@
                 android:layout_marginStart="40dp"
                 android:layout_marginTop="10dp"
                 android:textColor="@color/white"
-                android:textSize="18sp"
+                android:textSize="16sp"
                 android:lines="1"
                 android:text="**/**"
                 app:layout_constraintStart_toStartOf="parent"
@@ -91,7 +97,7 @@
                 />
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/card_surname"
+                android:id="@+id/card_firstname"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="40dp"
@@ -101,6 +107,18 @@
                 android:lines="1"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/card_add_date_year"
+                />
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/card_surname"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="10dp"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                android:lines="1"
+                app:layout_constraintTop_toBottomOf="@+id/card_add_date_year"
+                app:layout_constraintStart_toEndOf="@id/card_firstname"
                 />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -114,6 +132,7 @@
         android:layout_marginEnd="20dp"
         android:layout_marginTop="20dp"
         android:id="@+id/et_card_number"
+        app:layout_constraintTop_toBottomOf="@+id/ev_add_card"
         android:theme="@style/Widget.Design.TextInputLayout"
         android:textColorHint="@android:color/black"
         app:hintTextColor="@color/black"
@@ -128,6 +147,7 @@
             android:hint="@string/card_number"
             android:lines="1"
             android:maxLength="19"
+            android:inputType="number"
             android:imeOptions="actionNext"
             android:textColor="@android:color/black"
             android:textSize="18sp" />
@@ -138,21 +158,62 @@
         android:id="@+id/ed_card_interval"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/et_card_number"
+        app:layout_constraintStart_toStartOf="parent"
         android:layout_marginTop="20dp"
         android:lines="1"
+        android:inputType="number"
         android:maxLength="5"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
         android:hint="@string/card_interval"
         />
 
-    <androidx.appcompat.widget.AppCompatButton
+    <com.sanojpunchihewa.glowbutton.GlowButton
         android:id="@+id/card_add_button"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_gravity="center"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
         android:background="@color/purple_1000"
         android:text="@string/search_button"
+        app:cornerRadius="10dp"
+        app:unpressedGlowSize="5dp"
+        app:layout_constraintTop_toBottomOf="@id/ed_card_interval"
+        app:buttonColor="@color/purple_1000"
         android:layout_marginTop="10dp"
         android:textColor="@color/white"
         android:layout_height="wrap_content"/>
-</androidx.appcompat.widget.LinearLayoutCompat>
+
+    <ir.alirezabdn.wp7progress.WP7ProgressBar
+        android:id="@+id/wp_progressBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        app:animationDuration="2300"
+        app:indicatorColor="@color/purple_700"
+        app:indicatorHeight="7"
+        app:indicatorRadius="10"
+        app:interval="100"
+        app:layout_constraintTop_toBottomOf="@+id/ev_add_card"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="20dp"/>
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/lottie_okay"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginBottom="50dp"
+        android:scaleType="centerCrop"
+        android:visibility="invisible"
+        app:layout_constraintTop_toBottomOf="@+id/ev_add_card"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
+        app:lottie_rawRes="@raw/okay" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
