@@ -28,4 +28,8 @@
     <string name="search_button">izlash</string>
     <string name="error_offline">Internetda uzilish</string>
     <string name="addcard_toolbar">Qo\'shish</string>
+    <string name="toolbar_buttton">Saqlash</string>
+    <string name="tv_payments_fragment">To\'lovlar</string>
+    <string name="money_report">soumma</string>
+    <string name="card_report_payment">To\'lov</string>
 </resources>

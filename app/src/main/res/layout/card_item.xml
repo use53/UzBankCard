@@ -10,9 +10,6 @@
     app:cardCornerRadius="15dp"
     app:cardElevation="20dp">
 
-
-
-
 <androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -21,7 +18,7 @@
     android:layout_weight="1">
 
     <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/appCompatImageView"
+        android:id="@+id/app_card_image"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
@@ -31,15 +28,65 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/rec_add_money"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="1 2 3 4   1 2 1 2   1 2 1 2   1 2 1 2"
-        android:layout_marginStart="30dp"
+        android:layout_marginStart="40dp"
         android:layout_marginTop="10dp"
         android:textColor="@color/white"
-        android:textSize="15sp"
+        android:textSize="22sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/appCompatImageView" />
+        app:layout_constraintTop_toBottomOf="@+id/app_card_image"
+        />
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/rec_add_number"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="10dp"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        android:lines="1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/rec_add_money"
+        />
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/rec_add_date_year"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="10dp"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        android:lines="1"
+        android:text="**/**"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/rec_add_number"
+        />
 
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/rec_firstname"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="10dp"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        android:lines="1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/rec_add_date_year"
+        />
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/rec_surname"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="10dp"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        android:lines="1"
+        app:layout_constraintTop_toBottomOf="@+id/rec_add_date_year"
+        app:layout_constraintStart_toEndOf="@id/rec_firstname"
+        />
 </androidx.constraintlayout.widget.ConstraintLayout>
 </io.armcha.elasticview.ElasticView>

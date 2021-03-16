@@ -17,13 +17,32 @@
         app:layout_constraintTop_toTopOf="parent"
         app:titleTextColor="@color/white">
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="@string/toolbar_add_card"
-            android:textColor="@color/white"
-            android:textSize="16sp" />
+      <androidx.appcompat.widget.LinearLayoutCompat
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          android:orientation="horizontal">
+
+          <androidx.appcompat.widget.AppCompatTextView
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="@string/toolbar_add_card"
+              android:layout_weight="1"
+              android:layout_gravity="center"
+              android:gravity="center"
+              android:textColor="@color/white"
+              android:textSize="18sp" />
+
+          <androidx.appcompat.widget.AppCompatTextView
+              android:id="@+id/save_card_toolbar"
+              android:layout_width="wrap_content"
+              android:visibility="invisible"
+              android:layout_height="wrap_content"
+              android:text="@string/toolbar_buttton"
+              android:textColor="@color/white"
+              android:layout_gravity="center_vertical"
+              android:layout_marginEnd="5dp"
+              android:textSize="18sp" />
+      </androidx.appcompat.widget.LinearLayoutCompat>
     </androidx.appcompat.widget.Toolbar>
 
 

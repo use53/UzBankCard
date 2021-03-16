@@ -49,6 +49,8 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.3.0'
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.0'
     implementation 'com.google.firebase:firebase-database:19.6.0'
+    implementation 'com.firebaseui:firebase-ui-database:6.2.1'
+    implementation 'com.google.firebase:firebase-storage:19.2.1'
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
@@ -78,7 +80,12 @@ dependencies {
     implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
     implementation 'com.jakewharton.rxbinding4:rxbinding:4.0.0'
 
+
+
     implementation 'com.github.shadowalker77:wp7progressbar:1.0.5'
+    implementation 'com.squareup.picasso:picasso:2.71828'
+
+    compile 'org.osmdroid:osmdroid-android:+'
 
 
 }

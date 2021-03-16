@@ -2,17 +2,23 @@ package uz.fintech.uzbankcard.navui.twoui.addcard
 
 import android.os.Bundle
 import android.os.Handler
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.core.view.isGone
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.Navigation
 import kotlinx.android.synthetic.main.add_card_fragment.*
 import uz.click.mobilesdk.utils.CardExpiryDateFormatWatcher
 import uz.fintech.uzbankcard.R
+import uz.fintech.uzbankcard.adapter.CardHomeAdapter
+import uz.fintech.uzbankcard.common.cardDateUtils
+import uz.fintech.uzbankcard.common.cardNumber
 import uz.fintech.uzbankcard.common.lazyFast
 import uz.fintech.uzbankcard.model.CardModel
+import uz.fintech.uzbankcard.navui.database.HistoryDB
 import uz.fintech.uzbankcard.network.NetworkStatus
 import uz.fintech.uzbankcard.utils.CardNumberFormatWatcher
 
@@ -20,11 +26,14 @@ import uz.fintech.uzbankcard.utils.CardNumberFormatWatcher
 class AddCardFragment ():Fragment(R.layout.add_card_fragment),
         View.OnClickListener {
 
+    private var cardModel:CardModel?=null
     private val obsevast=Observer<CardModel>{
         saveCard(it)
+        cardModel=it
     }
+    private val navController by lazyFast {
+        Navigation.findNavController(requireActivity(),R.id.nav_host_fragment) }
     private lateinit var handler:Handler
-    private var isEditing=true
     private var number:String?=null
     private var interval:String?=null
     private fun saveCard(it: CardModel?) {
@@ -44,10 +53,10 @@ class AddCardFragment ():Fragment(R.layout.add_card_fragment),
     }
 
     private fun showCard() {
-
         viewModel.liveAddCard.observe(viewLifecycleOwner,obsevast)
         handler= Handler()
         lottie_okay.visibility=View.VISIBLE
+        save_card_toolbar.visibility=View.VISIBLE
         wp_progressBar.hideProgressBar()
         handler.postDelayed({
             lottie_okay.visibility=View.INVISIBLE
@@ -55,6 +64,11 @@ class AddCardFragment ():Fragment(R.layout.add_card_fragment),
     }
 
     private fun showError(errorMsg: Int) {
+        wp_progressBar.hideProgressBar()
+        ed_card_add.isGone=false
+        ed_card_interval.isGone=false
+        card_add_button.isGone=false
+        et_card_number.isGone=false
 
     }
 
@@ -64,19 +78,12 @@ class AddCardFragment ():Fragment(R.layout.add_card_fragment),
         ed_card_interval.isGone=true
         card_add_button.isGone=true
         et_card_number.isGone=true
-        isEditing=false
 
     }
 
     private val viewModel:AddCardViewModel by activityViewModels()
-
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        toolbar.inflateMenu(R.menu.addcard_menu)
-        updateTollbar()
-
 
         val cardNumberFormatWatcher=object :CardNumberFormatWatcher(ed_card_add){
             override fun afterTextWithoutPattern(cardNumber: String) {
@@ -91,42 +98,26 @@ class AddCardFragment ():Fragment(R.layout.add_card_fragment),
         ed_card_interval.addTextChangedListener(cardExpiryDateFormatWatcher)
         ed_card_add.addTextChangedListener(cardNumberFormatWatcher)
         card_add_button.setOnClickListener(this)
-    }
+        save_card_toolbar.setOnClickListener {
+           val bundle=Bundle().apply {
+           }
+            Log.d("key", "onViewCreated: ${cardModel.toString()}")
+                 viewModel.saveRoom("${number}${interval}")
+            navController.popBackStack(R.id.home_navigation, false)
 
-    private fun updateTollbar() {
-        isEditing = !isEditing
 
-        val saveItem =toolbar.menu.findItem(R.id.add_card_menu)
-        saveItem.isVisible = isEditing
+        }
     }
 
 
     private fun itemAddInterval(text: String) {
         interval=text
-        val textParsed = when {
-            text.length >= 3 -> {
-                text.substring(0, 2) + " / " + text.substring(2)
-            }
-            else -> text
-        }
+        val textParsed= cardDateUtils(text)
         card_add_date_year.text=textParsed
     }
 
     private fun tvItemCardNumber(text: String) {
-        val textParsed = when {
-            text.length >= 12 -> {
-                text.substring(0, 4) + "  " + text.substring(4, 8) +
-                        "  " + text.subSequence(8, 12) + "  " + text.substring(12)
-            }
-            text.length >= 8 -> {
-                text.substring(0, 4) + "  " + text.substring(4, 8) + "  " + text.substring(8)
-            }
-            text.length >= 4 -> {
-                text.substring(0, 4) + "  " + text.substring(4)
-            }
-            else -> text
-
-        }
+        val textParsed=cardNumber(text)
         card_add_number.text=textParsed
     }
 
