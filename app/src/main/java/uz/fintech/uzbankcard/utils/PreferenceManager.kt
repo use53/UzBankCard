@@ -3,7 +3,7 @@ package uz.fintech.uzbankcard.utils
 import android.content.Context
 import android.content.SharedPreferences
 import uz.fintech.uzbankcard.model.CardModel
-
+private const val KEY_NUMBER="KEY_NUMBER"
 private const val KEY_SINGUP_NAME="KEY_SINGUP_NAME"
 private const val KEY_SINGUP_PASSWORD="KEY_SINGUP_PASSWORD"
 private const val KEY_SINGUP_CALLNUM="KEY_SINGUP_CALLNUMBER"
@@ -17,13 +17,15 @@ class PreferenceManager( preferences:SharedPreferences):IPreferences{
     override var isSingupPassword: String by
     TextPreference(preferences, KEY_SINGUP_PASSWORD)
 
-    override var isCallNumber: Boolean by
+    override var isCodenSave: Boolean by
     TextNumPreference(preferences,KEY_SINGUP_CALLNUM)
     override var isCardSaveBoolean: Boolean by
     TextNumPreference(preferences, KEY_HOME_SAVE_BOOLEAN)
 
     override var isCardModelSave: String by
     TextPreference(preferences, KEY_HOME_CARDMODEL_SAVE)
+    override var isCallNumber: String by
+    TextPreference(preferences, KEY_NUMBER)
 
     companion object{
         private var instanse:IPreferences?=null

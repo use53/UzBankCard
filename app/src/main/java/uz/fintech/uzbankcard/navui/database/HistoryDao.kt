@@ -10,7 +10,7 @@ import io.reactivex.Single
 interface HistoryDao {
 
     @Insert
-    fun insert(model: HistoryDB):Completable
+    fun insert(it:HistoryDB): Completable
 
     @Query("select * from HistoryDB")
     fun loadAll(): Single<List<HistoryDB>>

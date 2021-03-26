@@ -10,10 +10,10 @@ import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.payment_item_layout.view.*
 import uz.fintech.uzbankcard.R
 import uz.fintech.uzbankcard.model.PaymentModel
-import uz.fintech.uzbankcard.navui.onclikc.IHomeOnClick
+import uz.fintech.uzbankcard.navui.onclikc.IPaymentOnClick
 
 
-class PaymentsAdapter(val iHomeOnClick: IHomeOnClick): ListAdapter<PaymentModel,
+class PaymentsAdapter(val iHomeOnClick: IPaymentOnClick): ListAdapter<PaymentModel,
         PaymentsAdapter.PaymentVH>(ItemAdapterCallback()){
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PaymentVH {
@@ -25,11 +25,13 @@ class PaymentsAdapter(val iHomeOnClick: IHomeOnClick): ListAdapter<PaymentModel,
         val item=getItem(position)
         holder.onBind(item)
     }
-    class PaymentVH(view:View,val iHomeOnClick: IHomeOnClick)
-        :RecyclerView.ViewHolder(view), View.OnClickListener {
+    class PaymentVH(view:View,val iHomeOnClick: IPaymentOnClick)
+        :RecyclerView.ViewHolder(view) {
             var paymentModel:PaymentModel?=null
         init {
-            itemView.setOnClickListener(this)
+            itemView.setOnClickListener {
+                paymentModel?.let { it1 -> iHomeOnClick.onClickListener(it1) }
+            }
         }
 
         fun onBind(paymentModel:PaymentModel){
@@ -43,9 +45,7 @@ class PaymentsAdapter(val iHomeOnClick: IHomeOnClick): ListAdapter<PaymentModel,
                 .into(itemView.image_payment)
         }
 
-        override fun onClick(v: View?) {
-            iHomeOnClick.onClickListener(paymentModel!!)
-        }
+
     }
 
 }

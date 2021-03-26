@@ -110,6 +110,7 @@
                 android:layout_marginBottom="5dp"
                 android:backgroundTint="@android:color/black"
                 android:hint="@string/first_name"
+                android:lines="1"
                 android:imeOptions="actionNext"
                 android:textColor="@android:color/black"
                 android:textSize="18sp" />
@@ -139,6 +140,7 @@
                 android:layout_marginBottom="5dp"
                 android:backgroundTint="@android:color/black"
                 android:hint="@string/password"
+                android:lines="1"
                 android:imeOptions="actionNext"
                 android:inputType="numberPassword"
                 android:textColor="@android:color/black"

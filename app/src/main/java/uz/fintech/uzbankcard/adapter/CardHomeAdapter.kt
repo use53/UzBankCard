@@ -40,7 +40,8 @@ class CardHomeAdapter(val iHomeCardOnClick: IHomeCardOnClick) : RecyclerView.Ada
     fun submitList(cardList: MutableList<CardModel>) {
         list.clear()
         list.addAll(cardList)
-        notifyItemRangeInserted(0, cardList.size)
+        notifyDataSetChanged()
+       // notifyItemRangeInserted(0, cardList.size)
     }
 
 

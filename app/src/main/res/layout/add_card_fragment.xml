@@ -32,13 +32,12 @@
               android:textColor="@color/white"
               android:textSize="18sp" />
 
-          <androidx.appcompat.widget.AppCompatTextView
+          <androidx.appcompat.widget.AppCompatImageView
               android:id="@+id/save_card_toolbar"
               android:layout_width="wrap_content"
               android:visibility="invisible"
               android:layout_height="wrap_content"
-              android:text="@string/toolbar_buttton"
-              android:textColor="@color/white"
+              android:src="@drawable/ic_baseline_save_alt_24"
               android:layout_gravity="center_vertical"
               android:layout_marginEnd="5dp"
               android:textSize="18sp" />

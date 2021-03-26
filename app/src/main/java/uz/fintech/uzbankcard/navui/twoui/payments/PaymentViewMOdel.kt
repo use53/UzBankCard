@@ -1,6 +1,7 @@
 package uz.fintech.uzbankcard.navui.twoui.payments
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -10,36 +11,33 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import uz.fintech.uzbankcard.common.lazyFast
 import uz.fintech.uzbankcard.model.PaymentModel
+import uz.fintech.uzbankcard.network.StatusLoading
 
-interface IPaymentVH{
-
-    val loadPayment:LiveData<MutableList<PaymentModel>>
+interface IPaymentVH {
     fun ItemPayment()
 }
 
 
-class PaymentViewMOdel(app:Application):AndroidViewModel(app),IPaymentVH, ValueEventListener {
-    override val loadPayment =MutableLiveData<MutableList<PaymentModel>>()
-   private val firebaseDB by lazyFast { FirebaseDatabase
-       .getInstance()
-       .reference
-       .child("payment")}
+class PaymentViewMOdel(app: Application) :
+    AndroidViewModel(app), IPaymentVH {
+  private var loadPaymentVM = MutableLiveData<MutableList<PaymentModel>>()
+   private val paymentRepo by lazyFast { PaymentRepo.paymentRepoInstanse(app.applicationContext) }
+    private var statusVM = MutableLiveData<StatusLoading>()
+
     override fun ItemPayment() {
-        firebaseDB.addValueEventListener(this)
+       paymentRepo.paymentItim()
+        loadPaymentVM=paymentRepo.ldPayment()
+    }
+    fun ldpaymentVM():LiveData<MutableList<PaymentModel>>{
+   return loadPaymentVM
     }
 
-    override fun onCancelled(error: DatabaseError) {
+  fun paymentMoney(money:String,name:String){
+      paymentRepo.paymentUpdate(money,name)
+  }
 
+    fun statusVM():LiveData<StatusLoading>{
+        statusVM=paymentRepo.statusRepo()
+        return  statusVM
     }
-
-    override fun onDataChange(snapshot: DataSnapshot) {
-        val list= mutableListOf<PaymentModel>()
-        snapshot.children.forEach {
-            val snp=it.getValue(PaymentModel::class.java)
-            list.add(snp!!)
-         }
-        loadPayment.postValue(list)
-    }
-
-
 }

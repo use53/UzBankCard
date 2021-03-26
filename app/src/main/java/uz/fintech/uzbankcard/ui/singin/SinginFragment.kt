@@ -2,6 +2,8 @@ package uz.fintech.uzbankcard.ui.singin
 
 import android.os.Bundle
 import android.view.View
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
@@ -10,17 +12,26 @@ import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.functions.BiFunction
 import kotlinx.android.synthetic.main.singin_fragment.*
 import uz.fintech.uzbankcard.R
+import uz.fintech.uzbankcard.common.hideKeyboard
+import uz.fintech.uzbankcard.common.toast
 import uz.fintech.uzbankcard.utils.PreferenceManager
 
-class SinginFragment :Fragment(R.layout.singin_fragment){
+class SinginFragment :
+    Fragment(R.layout.singin_fragment){
 
     private val preference by lazy { PreferenceManager.instanse(requireContext()) }
+    private var anim: Animation? = null
     private val navController by lazy { Navigation.findNavController(requireActivity(),R.id.splash_nav) }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+
+        anim = AnimationUtils.loadAnimation(requireContext(), R.anim.anim)
+           singInAnimation()
+
         toolbar_singin.setNavigationOnClickListener {
             navController.navigate(R.id.rigentry_navigation)
+            it.hideKeyboard()
         }
         gb_next_singin.setOnClickListener {
 
@@ -32,9 +43,15 @@ class SinginFragment :Fragment(R.layout.singin_fragment){
             if (gb_name_singin.text.toString().equals(preference.isSingupName) && gb_pass_singin.text.toString().equals(preference.isSingupPassword)){
                 navController.navigate(R.id.codesave_navigation)
             }else{
-                Toast.makeText(requireContext(), "oldin ro'yxatdan uting", Toast.LENGTH_SHORT).show()
+              requireContext().toast(getString(R.string.error_singin))
             }
         }
+    }
+
+    private fun singInAnimation() {
+        gb_name_singin.animation=anim
+        gb_next_singin.animation=anim
+        gb_pass_singin.animation=anim
     }
 
     private fun isValidet(

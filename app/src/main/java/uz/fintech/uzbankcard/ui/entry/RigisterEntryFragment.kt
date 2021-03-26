@@ -12,9 +12,11 @@ import uz.fintech.uzbankcard.common.lazyFast
 
 class RigisterEntryFragment:Fragment(R.layout.rigisentry_fragment){
 
+
     private val navController by lazyFast {
         Navigation.findNavController(requireActivity(),R.id.splash_nav)
     }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 

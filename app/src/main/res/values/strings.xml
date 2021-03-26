@@ -28,8 +28,24 @@
     <string name="search_button">izlash</string>
     <string name="error_offline">Internetda uzilish</string>
     <string name="addcard_toolbar">Qo\'shish</string>
-    <string name="toolbar_buttton">Saqlash</string>
     <string name="tv_payments_fragment">To\'lovlar</string>
     <string name="money_report">soumma</string>
     <string name="card_report_payment">To\'lov</string>
+    <string name="payment_home">saqlangan to\'lovlar</string>
+    <string name="title_activity_maps">Map</string>
+    <string name="error_singin">oldin ro\'yxatdan uting</string>
+    <string name="offline_internet">Internet bilan aloqa yuq</string>
+    <string name="error_servis">"servisda xatolik "</string>
+    <string name="code_save">SAQLASH</string>
+    <string name="code_open">Kirish uchun kod</string>
+    <string name="cade_error">kod xato</string>
+    <string name="home_setting">sozlamalar</string>
+    <string name="home">B Fido Biznes</string>
+    <string name="add_card">karta raqami yoki muddati xato</string>
+    <string name="dialog_code">kodini kiriting</string>
+    <string name="mondey_dialog">summa</string>
+    <string name="positiv_dialog">To\'lov</string>
+    <string name="negativ_dialog">Qaytish</string>
+    <string name="update_payment">"malumotlar xato "</string>
+    <string name="cards_list">Kartalar</string>
 </resources>

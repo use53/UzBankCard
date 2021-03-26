@@ -14,7 +14,9 @@
            android:id="@+id/home_tollbar"
            android:layout_width="match_parent"
            android:background="@drawable/top_code_color"
-           app:navigationIcon="@drawable/ic_back_24"
+           app:title="@string/home"
+           app:titleMarginStart="40dp"
+           app:titleTextColor="@color/white"
            android:layout_height="?attr/actionBarSize"
            />
        <include
