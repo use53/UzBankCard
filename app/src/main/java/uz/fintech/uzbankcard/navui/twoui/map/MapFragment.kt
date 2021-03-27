@@ -10,14 +10,13 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.map_fragment.*
-
 import org.osmdroid.config.Configuration
-import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
+import org.osmdroid.tileprovider.tilesource.TileSourceFactory
 import org.osmdroid.util.GeoPoint
 import org.osmdroid.views.MapController
-import org.osmdroid.views.overlay.Marker;
+import org.osmdroid.views.MapView
+import org.osmdroid.views.overlay.Marker
 import org.osmdroid.views.overlay.Polyline
 import uz.fintech.uzbankcard.R
 import uz.fintech.uzbankcard.adapter.MapAdapter
@@ -34,10 +33,10 @@ class MapFragment :Fragment(R.layout.map_fragment){
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        map_rec.layoutManager=GridLayoutManager(requireContext(),2)
+        map_rec.layoutManager=GridLayoutManager(requireContext(),3)
         map_rec.adapter=mapAdapter
-        mapViewModel.loadMapItem()
-        mapViewModel.listItem.observe(viewLifecycleOwner, Observer {
+        mapViewModel.loadMapItemVM()
+        mapViewModel.listItemVM().observe(viewLifecycleOwner, Observer {
             mapAdapter.submitList(it)
         })
        markerMaps()
@@ -52,7 +51,9 @@ class MapFragment :Fragment(R.layout.map_fragment){
         map_view.setTileSource(TileSourceFactory.MAPNIK)
         map_view.setBuiltInZoomControls(true)
         map_view.setMultiTouchControls(true)
+        map_view.setUseDataConnection(true)
         map_view.invalidate()
+
 
 
         mapController = map_view.controller as MapController?
@@ -78,12 +79,15 @@ class MapFragment :Fragment(R.layout.map_fragment){
 
         startmarker.title="Ipotika Bank"
         endmarker.title="Asaka Bank"
+        markers.title="Milliy Bank"
         startmarker.isDraggable=true
         endmarker.setAnchor(Marker.ANCHOR_CENTER,Marker.ANCHOR_BOTTOM)
+
 
         map_view.overlays.add(startmarker)
         map_view.overlays.add(endmarker)
         map_view.overlays.add(markers)
+
         val livedate=MutableLiveData<Polyline>()
         val markma=MarkerTask(list,livedate,requireContext())
         markma.start()
@@ -94,3 +98,7 @@ class MapFragment :Fragment(R.layout.map_fragment){
 
 
 }
+
+
+
+

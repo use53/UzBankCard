@@ -30,7 +30,7 @@
     <string name="addcard_toolbar">Qo\'shish</string>
     <string name="tv_payments_fragment">To\'lovlar</string>
     <string name="money_report">soumma</string>
-    <string name="card_report_payment">To\'lov</string>
+    <string name="card_report_payment">Izlash</string>
     <string name="payment_home">saqlangan to\'lovlar</string>
     <string name="title_activity_maps">Map</string>
     <string name="error_singin">oldin ro\'yxatdan uting</string>
@@ -48,4 +48,6 @@
     <string name="negativ_dialog">Qaytish</string>
     <string name="update_payment">"malumotlar xato "</string>
     <string name="cards_list">Kartalar</string>
+    <string name="card_update">to\'lash</string>
+    <string name="map_title">Xarita</string>
 </resources>

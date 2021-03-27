@@ -14,10 +14,11 @@ import uz.fintech.uzbankcard.common.lazyFast
 import uz.fintech.uzbankcard.model.CardModel
 import uz.fintech.uzbankcard.navui.database.BuilderDB
 import uz.fintech.uzbankcard.navui.database.paymentsave.PaymentHistory
+import uz.fintech.uzbankcard.network.NetworkStatus
 import uz.fintech.uzbankcard.utils.PreferenceManager
 
 interface IReportVM {
-    val loadCard: LiveData<CardModel>
+
     fun loadItemRt(cardnumber: String)
     fun updateMoney(money:String,oldmoney:String)
 }
@@ -25,38 +26,22 @@ interface IReportVM {
 class ReportViewModel(app: Application) : AndroidViewModel(app),
         IReportVM {
 
-    private val preferense by lazyFast {
-        PreferenceManager.instanse(app)
-    }
 
-    private val firebaseDb by lazyFast {
-        FirebaseDatabase.getInstance().reference.child("card")
-
-    }
-    private val builderDb by lazyFast {
-        BuilderDB.instanse(app)
-    }
-
-    override val loadCard = MutableLiveData<CardModel>()
-
+private val reportRepo by lazyFast {
+    ReportRepo.ReportRepoInstanse(app.applicationContext) }
+    private var loadCardVM= MutableLiveData<CardModel>()
+    private var ldStatusVM=MutableLiveData<NetworkStatus>()
     override fun loadItemRt(cardnumber: String) {
-        val searchNumber = firebaseDb.orderByChild("cardnum").startAt(cardnumber).endAt(cardnumber + "\uf8ff")
-        searchNumber.addListenerForSingleValueEvent(object :ValueEventListener{
-            override fun onCancelled(error: DatabaseError) {
-
-            }
-
-            override fun onDataChange(snapshot: DataSnapshot) {
-                snapshot.children.forEach {
-                    val snp=it.getValue(CardModel::class.java)
-                    loadCard.postValue(snp)
-                }
-            }
-
-        })
+       reportRepo.loadItemRt(cardnumber)
+        loadCardVM=reportRepo.ldCardModel()
 }
+    fun ldcardModelVM():LiveData<CardModel>{
+        return loadCardVM
+    }
+
     override fun updateMoney(money: String,oldmoney: String) {
-        val saveNumber = preferense.isCardModelSave
+        reportRepo.updateMoneyRepo(money,oldmoney)
+       /* val saveNumber = preferense.isCardModelSave
         val  query=firebaseDb.orderByChild("cardnum").
         startAt(saveNumber).endAt(saveNumber+"\uf8ff")
           val queryPlus=firebaseDb.orderByChild("cardnum")
@@ -103,7 +88,12 @@ class ReportViewModel(app: Application) : AndroidViewModel(app),
                   }
               }
             }
-        })
+        })*/
+    }
+
+    fun ldStatus():LiveData<NetworkStatus>{
+        ldStatusVM=reportRepo.ldStatus()
+        return ldStatusVM
     }
 
 

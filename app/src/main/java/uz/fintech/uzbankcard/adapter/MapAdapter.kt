@@ -8,7 +8,6 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.map_layout.view.*
-import kotlinx.android.synthetic.main.payment_item_layout.view.*
 import uz.fintech.uzbankcard.R
 import uz.fintech.uzbankcard.model.MapModel
 
@@ -27,12 +26,13 @@ class MapAdapter : ListAdapter<MapModel, MapAdapter.MapVH>(MapCallback()) {
     class MapVH(view: View) : RecyclerView.ViewHolder(view) {
 
         fun mapBind(mapModel: MapModel) {
-            /*Picasso.get()
-                .load(paymentModel.payimage)
+
+            itemView.tv_map.text=mapModel.title
+            Picasso.get()
+                .load(mapModel.imagetext)
                 .resize(50, 50)
                 .centerCrop()
-                .into(itemView.image_payment)*/
-            itemView.tv_map.text=mapModel.title
+                .into(itemView.image_map)
         }
     }
 }

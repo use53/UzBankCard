@@ -176,10 +176,41 @@
         app:layout_constraintTop_toBottomOf="@+id/ed_report_card_money"
         android:layout_marginTop="20dp"
         app:buttonColor="@color/purple_1000"
-        app:cornerRadius="10dp"
+        app:cornerRadius="5dp"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
         android:textColor="@color/white"
         android:text="@string/card_report_payment"/>
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/report_lottie"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginEnd="40dp"
+        android:layout_marginBottom="10dp"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/image_elasticview_report"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
+        app:lottie_rawRes="@raw/codeloading_editor" />
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/lottie_okay_report"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginBottom="50dp"
+        android:scaleType="centerCrop"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/image_elasticview_report"
+        android:layout_marginTop="20dp"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
+        app:lottie_rawRes="@raw/okay" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

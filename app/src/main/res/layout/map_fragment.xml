@@ -12,6 +12,9 @@
         android:layout_height="?attr/actionBarSize"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:title="@string/map_title"
+        app:titleTextColor="@color/white"
+        app:titleMarginStart="40dp"
         android:background="@color/purple_700"
         app:layout_constraintTop_toTopOf="parent" />
 

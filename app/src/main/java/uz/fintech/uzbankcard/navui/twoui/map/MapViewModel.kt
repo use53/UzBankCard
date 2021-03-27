@@ -12,36 +12,25 @@ import uz.fintech.uzbankcard.common.lazyFast
 import uz.fintech.uzbankcard.model.MapModel
 
 interface IMapVH{
-    val listItem:LiveData<MutableList<MapModel>>
-    fun loadMapItem()
+
+    fun loadMapItemVM()
 }
 
 class MapViewModel(app:Application)
-    :AndroidViewModel(app),IMapVH, ValueEventListener {
-    private var isEnableMap=false
-    private val firebaseDB by lazyFast { FirebaseDatabase.getInstance().reference }
-    override val listItem= MutableLiveData<MutableList<MapModel>>()
-     private val list by lazyFast { mutableListOf<MapModel>() }
-    override fun loadMapItem() {
-      if (!isEnableMap){
-          val db= firebaseDB.child("maps")
-          db.addListenerForSingleValueEvent(this)
-          isEnableMap=true
-      }
+    :AndroidViewModel(app),IMapVH {
+    private val mapsRepo by lazyFast { MapsRepo.paymentRepoInstanse(app.applicationContext)
     }
 
-    override fun onCancelled(error: DatabaseError) {
-
+    private var listItemVM=MutableLiveData<MutableList<MapModel>>()
+    override fun loadMapItemVM() {
+    mapsRepo.loadMapItem()
+        listItemVM=mapsRepo.ldListMap()
     }
 
-    override fun onDataChange(snapshot: DataSnapshot) {
-          snapshot.children.forEach {
-
-              val snp=it.getValue(MapModel::class.java)
-              list.add(snp!!)
-          }
-        listItem.postValue(list)
+    fun listItemVM():LiveData<MutableList<MapModel>>{
+        return listItemVM
     }
+
 
 
 }
