@@ -11,6 +11,7 @@ import uz.fintech.uzbankcard.R
 import uz.fintech.uzbankcard.common.cardDateUtils
 import uz.fintech.uzbankcard.common.cardNumber
 import uz.fintech.uzbankcard.common.formatDecimals
+import uz.fintech.uzbankcard.common.inflate
 import uz.fintech.uzbankcard.model.CardModel
 import uz.fintech.uzbankcard.navui.onclikc.IHomeCardOnClick
 
@@ -19,7 +20,8 @@ class CardHomeAdapter(val iHomeCardOnClick: IHomeCardOnClick) : RecyclerView.Ada
     val list = mutableListOf<CardModel>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VH {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.card_item, parent, false)
+        val view =parent.inflate(LayoutInflater.from(parent.context),R.layout.card_item)
+       // val view = LayoutInflater.from(parent.context).inflate(R.layout.card_item, parent, false)
         return VH(view,iHomeCardOnClick)
     }
 

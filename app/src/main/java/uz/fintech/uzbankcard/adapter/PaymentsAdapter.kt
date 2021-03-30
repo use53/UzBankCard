@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.payment_item_layout.view.*
 import uz.fintech.uzbankcard.R
+import uz.fintech.uzbankcard.common.inflate
 import uz.fintech.uzbankcard.model.PaymentModel
 import uz.fintech.uzbankcard.navui.onclikc.IPaymentOnClick
 
@@ -17,7 +18,7 @@ class PaymentsAdapter(val iHomeOnClick: IPaymentOnClick): ListAdapter<PaymentMod
         PaymentsAdapter.PaymentVH>(ItemAdapterCallback()){
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PaymentVH {
-        val view =LayoutInflater.from(parent.context).inflate(R.layout.payment_item_layout,parent,false)
+        val view =parent.inflate(LayoutInflater.from(parent.context),R.layout.payment_item_layout)
         return PaymentVH(view,iHomeOnClick)
     }
 

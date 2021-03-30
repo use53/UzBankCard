@@ -33,4 +33,8 @@
         android:id="@+id/add_card_navigation"
         android:name="uz.fintech.uzbankcard.navui.twoui.addcard.AddCardFragment"
         tools:layout="@layout/add_card_fragment"/>
+    <fragment
+        android:id="@+id/home_setting_navigation"
+        android:name="uz.fintech.uzbankcard.navui.twoui.home.homesetting.HomeSettingFragment"
+        tools:layout="@layout/home_setting"/>
 </navigation>

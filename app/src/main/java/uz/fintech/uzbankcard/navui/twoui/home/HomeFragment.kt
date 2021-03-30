@@ -10,6 +10,8 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.RecyclerView
 import com.github.mikephil.charting.data.BarData
 import com.github.mikephil.charting.data.BarDataSet
 import kotlinx.android.synthetic.main.activity_navigation.*
@@ -39,11 +41,11 @@ class HomeFragment : Fragment(R.layout.home_fragment),
     }
 
     private fun ErrorItem() {
-        requireActivity().finish()
+      //  requireActivity().finish()
     }
 
     private fun showOffline() {
-        home_wp_progressBar.showProgressBar()
+        home_wp_progressBar.hideProgressBar()
     }
 
     private fun showSuccess() {
@@ -52,7 +54,7 @@ class HomeFragment : Fragment(R.layout.home_fragment),
 
 
     private fun showLoading() {
-       home_wp_progressBar.showProgressBar()
+     home_wp_progressBar.showProgressBar()
     }
 
     private val navController by lazyFast {
@@ -91,6 +93,7 @@ class HomeFragment : Fragment(R.layout.home_fragment),
         viewmodel.historyRead()
         viewmodel.paymentLoad().observe(viewLifecycleOwner, Observer {
             savePaymentAdapter.submitList(it)
+
         })
 
     }
@@ -117,9 +120,11 @@ class HomeFragment : Fragment(R.layout.home_fragment),
         return if (item!!.itemId == R.id.home_menu_plus) {
             navController.navigate(R.id.add_card_navigation)
             requireActivity().nav_view.isGone=true
-
             true
-        } else false
+        } else if (item.itemId==R.id.home_setting){
+            navController.navigate(R.id.home_setting_navigation)
+            true
+        }else false
     }
 
     override fun onClickItem(cardModel: CardModel) {

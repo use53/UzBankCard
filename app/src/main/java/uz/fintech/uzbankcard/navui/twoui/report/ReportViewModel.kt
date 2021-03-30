@@ -41,54 +41,6 @@ private val reportRepo by lazyFast {
 
     override fun updateMoney(money: String,oldmoney: String) {
         reportRepo.updateMoneyRepo(money,oldmoney)
-       /* val saveNumber = preferense.isCardModelSave
-        val  query=firebaseDb.orderByChild("cardnum").
-        startAt(saveNumber).endAt(saveNumber+"\uf8ff")
-          val queryPlus=firebaseDb.orderByChild("cardnum")
-              .startAt(oldmoney).endAt(oldmoney+"\uf8ff")
-        query.addListenerForSingleValueEvent(object :ValueEventListener{
-            override fun onCancelled(error: DatabaseError) {
-
-            }
-
-            override fun onDataChange(snapshot: DataSnapshot) {
-               snapshot.children.forEach {
-                 val snp=it.getValue(CardModel::class.java)
-                   if (snp!=null && snp.cardnum==preferense.isCardModelSave){
-                       val minusM=snp.money
-                       val moneyMin=(minusM-money.toLong())
-                       val maps = hashMapOf<String, Long>()
-                       maps.put("money",moneyMin)
-                      firebaseDb.child(it.ref.key!!).updateChildren(maps as Map<String, Any>)
-                       builderDb.paymentdao()
-                           .insertPt(PaymentHistory(snp.cardname.toString()
-                           ,money.toLong(),"2020-12-01"))
-                           .subscribeOn(Schedulers.io())
-                           .observeOn(AndroidSchedulers.mainThread())
-                           .subscribe()
-                   }
-               }
-            }
-        })
-        queryPlus.addListenerForSingleValueEvent(object :ValueEventListener{
-            override fun onCancelled(error: DatabaseError) {
-
-            }
-
-            override fun onDataChange(snapshot: DataSnapshot) {
-              snapshot.children.forEach {
-                  val snp=it.getValue(CardModel::class.java)
-                  if (snp!=null && snp.cardnum==oldmoney){
-                      val plus=snp.money
-                      val moniyMax=(plus+money.toLong())
-                      val maps = hashMapOf<String, Long>()
-                      maps.put("money",moniyMax)
-                      firebaseDb.child(it.ref.key!!).updateChildren(maps as Map<String, Any>)
-
-                  }
-              }
-            }
-        })*/
     }
 
     fun ldStatus():LiveData<NetworkStatus>{

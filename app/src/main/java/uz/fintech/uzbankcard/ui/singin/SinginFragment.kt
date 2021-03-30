@@ -12,6 +12,7 @@ import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.functions.BiFunction
 import kotlinx.android.synthetic.main.singin_fragment.*
 import uz.fintech.uzbankcard.R
+import uz.fintech.uzbankcard.common.getString
 import uz.fintech.uzbankcard.common.hideKeyboard
 import uz.fintech.uzbankcard.common.toast
 import uz.fintech.uzbankcard.utils.PreferenceManager
@@ -35,12 +36,12 @@ class SinginFragment :
         }
         gb_next_singin.setOnClickListener {
 
-           Observable.combineLatest(
+           val d=Observable.combineLatest(
                 gb_name_singin.textChanges(),
                 gb_pass_singin.textChanges(),
                 BiFunction< CharSequence, CharSequence,Boolean>(this::isValidet)
            ).subscribe()
-            if (gb_name_singin.text.toString().equals(preference.isSingupName) && gb_pass_singin.text.toString().equals(preference.isSingupPassword)){
+            if (gb_name_singin.getString().equals(preference.isSingupName) && gb_pass_singin.getString().equals(preference.isSingupPassword)){
                 navController.navigate(R.id.codesave_navigation)
             }else{
               requireContext().toast(getString(R.string.error_singin))

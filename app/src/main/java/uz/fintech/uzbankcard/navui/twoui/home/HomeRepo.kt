@@ -2,6 +2,7 @@ package uz.fintech.uzbankcard.navui.twoui.home
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.os.Handler
 import androidx.lifecycle.MutableLiveData
 import com.github.mikephil.charting.data.BarData
 import com.github.mikephil.charting.data.BarDataSet
@@ -10,6 +11,7 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import uz.fintech.uzbankcard.api.ICurrencieApi
@@ -22,6 +24,7 @@ import uz.fintech.uzbankcard.navui.database.paymentsave.PaymentHistory
 import uz.fintech.uzbankcard.network.NetworkStatus
 import java.net.UnknownHostException
 
+@Suppress("DEPRECATION")
 class HomeRepo(ctx: Context) {
 
     companion object {
@@ -44,18 +47,20 @@ class HomeRepo(ctx: Context) {
     private val networkstatus=MutableLiveData<NetworkStatus>()
    private val paymentLivedata=MutableLiveData<MutableList<PaymentHistory>>()
     fun dBread() {
-        networkstatus.postValue(NetworkStatus.Loading)
-        db.getCardDao().loadAll()
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .doOnError {
-               networkstatus.postValue(NetworkStatus.Error(it.message!!.length))
-            }
-            .doOnSuccess {
+       Handler().postDelayed(Runnable {
+           networkstatus.postValue(NetworkStatus.Loading)
+           db.getCardDao().loadAll()
+               .subscribeOn(Schedulers.io())
+               .observeOn(AndroidSchedulers.mainThread())
+               .doOnError {
+                   networkstatus.postValue(NetworkStatus.Error(it.message!!.length))
+               }
+               .doOnSuccess {
 
-                readHistory(it)
-            }
-            .subscribe()
+                   readHistory(it)
+               }
+               .subscribe()
+       },2_000)
 
     }
 
@@ -99,17 +104,22 @@ class HomeRepo(ctx: Context) {
                             }
 
                             override fun onDataChange(snapshot: DataSnapshot) {
+                                //
+                                networkstatus.postValue(NetworkStatus.Success)
+                                if (!historyList.isEmpty()){
                                 snapshot.children.forEach {
                                     val snp = it.getValue(CardModel::class.java)
-                                    networkstatus.postValue(NetworkStatus.Success)
-                                    if (!historyList.isEmpty()){
+                                   // if (!historyList.isEmpty()){
                                     historyList.forEach {
                                         if (it.cardnumdb == snp!!.cardnum) {
                                             roomList.add(snp)
+                                            networkstatus.postValue(NetworkStatus.Success)
                                         }
-                                    }}else{
-                                        roomList.add(CardModel(cardnum = "####################"))
                                     }
+
+                                }}
+                                else{
+                                    roomList.add(CardModel(cardnum = "####################"))
                                 }
                                 listReduser.postValue(roomList)
 
@@ -158,6 +168,8 @@ class HomeRepo(ctx: Context) {
         bardata.addDataSet(barDataSet)
         apibardata.postValue(bardata)
     }
+
+
 
 
 }

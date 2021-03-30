@@ -16,6 +16,7 @@ import io.reactivex.rxjava3.functions.Function4
 import kotlinx.android.synthetic.main.singup_fragment.*
 import uz.fintech.uzbankcard.R
 import uz.fintech.uzbankcard.common.etExtension
+import uz.fintech.uzbankcard.common.getString
 import uz.fintech.uzbankcard.common.hideKeyboard
 import uz.fintech.uzbankcard.common.lazyFast
 import uz.fintech.uzbankcard.utils.IPreferences
@@ -106,9 +107,9 @@ class SingUpFragment : Fragment(R.layout.singup_fragment), View.OnClickListener 
             Function4(this::isValidate)
         ).subscribe()
 
-        callnum = etExtension(gb_call_singup)
-        name = etExtension(gb_name_singup)
-        password = etExtension(gb_pass_singup)
+        callnum = gb_call_singup.getString()
+        name = gb_name_singup.getString()
+        password = gb_pass_singup.getString()
 
 
         if (callnum!!.length > 8 && name!!.length > 4 && password!!.length > 7) {

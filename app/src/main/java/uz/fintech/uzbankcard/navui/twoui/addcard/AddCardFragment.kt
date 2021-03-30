@@ -1,5 +1,6 @@
 package uz.fintech.uzbankcard.navui.twoui.addcard
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.os.Handler
 import android.view.View
@@ -13,10 +14,7 @@ import kotlinx.android.synthetic.main.activity_navigation.*
 import kotlinx.android.synthetic.main.add_card_fragment.*
 import uz.click.mobilesdk.utils.CardExpiryDateFormatWatcher
 import uz.fintech.uzbankcard.R
-import uz.fintech.uzbankcard.common.cardDateUtils
-import uz.fintech.uzbankcard.common.cardNumber
-import uz.fintech.uzbankcard.common.lazyFast
-import uz.fintech.uzbankcard.common.toast
+import uz.fintech.uzbankcard.common.*
 import uz.fintech.uzbankcard.network.NetworkStatus
 import uz.fintech.uzbankcard.utils.CardNumberFormatWatcher
 
@@ -72,7 +70,7 @@ class AddCardFragment() : Fragment(R.layout.add_card_fragment),
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-         onback()
+         onBack()
         val cardNumberFormatWatcher = object : CardNumberFormatWatcher(ed_card_add) {
             override fun afterTextWithoutPattern(cardNumber: String) {
                 number = cardNumber
@@ -91,13 +89,13 @@ class AddCardFragment() : Fragment(R.layout.add_card_fragment),
 
             viewModel.saveLocalDB()
             requireActivity().nav_view.isGone=false
-            navController.popBackStack(R.id.home_navigation, false)
+            navController.navigate(R.id.payments_navigation)
 
 
         }
     }
 
-    private fun onback() {
+    private fun onBack() {
         requireActivity()
             .onBackPressedDispatcher
             .addCallback(viewLifecycleOwner,object : OnBackPressedCallback(true) {
@@ -122,12 +120,13 @@ class AddCardFragment() : Fragment(R.layout.add_card_fragment),
         card_add_number.text = textParsed
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onClick(v: View?) {
         if (number!!.length > 15 && interval!!.length > 3) {
             viewModel.statusVM().observe(viewLifecycleOwner,observerstatus)
             viewModel.searchFirebase("${number}${interval}")
             viewModel.ldSearch().observe(viewLifecycleOwner, Observer {
-                card_add_money.text = "${it!!.money}"
+              card_add_money.text = "${it!!.money.toDouble().formatDecimals()}.00 so'm"
                 card_firstname.text = it.firstname
                 card_surname.text = it.surname
             })

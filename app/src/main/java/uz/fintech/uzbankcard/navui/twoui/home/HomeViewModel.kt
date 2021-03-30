@@ -20,14 +20,16 @@ interface IHomeVH {
 }
 
 class HomeViewModel(val app: Application) : AndroidViewModel(app), IHomeVH {
+
     override val loadHomeApi = MutableLiveData<MutableList<BarEntry>>()
     override var loadRead = MutableLiveData<MutableList<PaymentHistory>>()
     private val homeRepo by lazyFast { HomeRepo.homeRepoInstanse(app.applicationContext) }
     private var dbroomld = MutableLiveData<MutableList<CardModel>>()
     private var apilivedata = MutableLiveData<BarData>()
     private var statusVH = MutableLiveData<NetworkStatus>()
+
     override fun readApiSerVM() {
-      //  homeRepo.restApi()
+    // homeRepo.restApi()
         apilivedata = homeRepo.apibardata
     }
 
@@ -61,4 +63,5 @@ class HomeViewModel(val app: Application) : AndroidViewModel(app), IHomeVH {
     fun dbList(): LiveData<MutableList<CardModel>> {
         return dbroomld
     }
+
 }

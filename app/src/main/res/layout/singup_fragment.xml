@@ -111,6 +111,7 @@
                 android:backgroundTint="@android:color/black"
                 android:hint="@string/first_name"
                 android:lines="1"
+                android:maxLength="8"
                 android:imeOptions="actionNext"
                 android:textColor="@android:color/black"
                 android:textSize="18sp" />

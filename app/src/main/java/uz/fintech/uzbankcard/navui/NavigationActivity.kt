@@ -1,5 +1,6 @@
 package uz.fintech.uzbankcard.navui
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -8,6 +9,7 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import uz.fintech.uzbankcard.R
 import uz.fintech.uzbankcard.navui.twoui.home.HomeViewModel
+import uz.fintech.uzbankcard.ui.SplashActivity
 
 class NavigationActivity : AppCompatActivity() {
 
@@ -22,5 +24,12 @@ private val homeViewModel:HomeViewModel by viewModels()
         val navController = findNavController(R.id.nav_host_fragment)
         navView.setupWithNavController(navController)
 
+    }
+
+
+    override fun onStop() {
+        super.onStop()
+        val intent=Intent(this,SplashActivity::class.java)
+        startActivity(intent)
     }
 }

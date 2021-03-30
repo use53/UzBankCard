@@ -17,6 +17,7 @@ import kotlinx.android.synthetic.main.payments_fragment.*
 import uz.fintech.uzbankcard.R
 import uz.fintech.uzbankcard.adapter.PaymentsAdapter
 import uz.fintech.uzbankcard.common.etExtension
+import uz.fintech.uzbankcard.common.getString
 import uz.fintech.uzbankcard.common.lazyFast
 import uz.fintech.uzbankcard.common.toast
 import uz.fintech.uzbankcard.model.PaymentModel
@@ -99,8 +100,8 @@ class PaymentsFragment : Fragment(R.layout.payments_fragment), IPaymentOnClick {
             .setView(view)
             .setPositiveButton(R.string.positiv_dialog) { dialog, which ->
 
-                val money= etExtension( view.gb_money_dialog)
-                val name= etExtension(view.gb_code_dialog)
+                val money= view.gb_money_dialog.getString()
+                val name= view.gb_code_dialog.getString()
                 if (money.isNotEmpty() && name.length>5){
                 viewModel.paymentMoney(money,paymentModel.payname)
                     isBoolean=true

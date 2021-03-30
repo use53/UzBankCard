@@ -25,6 +25,7 @@ class CardsFragment : Fragment(R.layout.cards_fragment), IHomeCardOnClick {
 
 
         cards_rec.adapter=adapter
+        homeViewModel.dbReadVM()
        homeViewModel.dbList().observe(viewLifecycleOwner, Observer {
            adapter.submitList(it)
        })

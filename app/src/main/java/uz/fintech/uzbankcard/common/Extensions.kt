@@ -1,10 +1,13 @@
 package uz.fintech.uzbankcard.common
 
 import android.content.Context
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.Toast
+import androidx.annotation.LayoutRes
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
 
@@ -54,6 +57,10 @@ fun cardDateUtils(text: String): String {
 
 fun etExtension(it: EditText) = it.text.toString()
 
+fun EditText.getString():String{
+    return this.text.toString()
+}
+
 fun View.hideKeyboard() {
     val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
     imm.hideSoftInputFromWindow(this.windowToken, 0)
@@ -66,4 +73,8 @@ fun View.showKeyboard() {
 
 fun Context.toast(msg:String){
     Toast.makeText(this,msg,Toast.LENGTH_LONG).show()
+}
+
+fun ViewGroup.inflate(inflater:LayoutInflater,@LayoutRes id:Int):View{
+    return inflater.inflate(id,this,false)
 }

@@ -9,13 +9,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.map_layout.view.*
 import uz.fintech.uzbankcard.R
+import uz.fintech.uzbankcard.common.inflate
 import uz.fintech.uzbankcard.model.MapModel
 
 class MapAdapter : ListAdapter<MapModel, MapAdapter.MapVH>(MapCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MapVH {
-        val view =
-            LayoutInflater.from(parent.context).inflate(R.layout.map_layout, parent, false)
+        val view =parent.inflate(LayoutInflater.from(parent.context),R.layout.map_layout)
+           // LayoutInflater.from(parent.context).inflate(R.layout.map_layout, parent, false)
         return MapVH(view)
     }
     override fun onBindViewHolder(holder: MapVH, position: Int) {
