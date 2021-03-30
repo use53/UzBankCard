@@ -1,5 +1,6 @@
 package uz.fintech.uzbankcard.navui.twoui.home
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
@@ -25,12 +26,14 @@ import uz.fintech.uzbankcard.common.lazyFast
 import uz.fintech.uzbankcard.common.toast
 import uz.fintech.uzbankcard.model.CardModel
 import uz.fintech.uzbankcard.navui.onclikc.IHomeCardOnClick
+import uz.fintech.uzbankcard.navui.twoui.cards.CardsViewModel
 import uz.fintech.uzbankcard.network.NetworkStatus
 
 
 class HomeFragment : Fragment(R.layout.home_fragment),
     Toolbar.OnMenuItemClickListener, IHomeCardOnClick {
 
+    private val cardsViewModel:CardsViewModel by activityViewModels()
     private val observable= Observer<NetworkStatus>{
         when(it){
         is NetworkStatus.Loading->showLoading()
@@ -88,7 +91,6 @@ class HomeFragment : Fragment(R.layout.home_fragment),
     }
 
     private fun paymentSaveItem() {
-        home_payment_rec.addItemDecoration(DividerItemDecoration(requireContext(),DividerItemDecoration.VERTICAL))
         home_payment_rec.adapter=savePaymentAdapter
         viewmodel.historyRead()
         viewmodel.paymentLoad().observe(viewLifecycleOwner, Observer {
@@ -128,6 +130,28 @@ class HomeFragment : Fragment(R.layout.home_fragment),
     }
 
     override fun onClickItem(cardModel: CardModel) {
-       requireContext().toast("Asosiy kartaga biriktirish")
+        val dialog= AlertDialog.Builder(requireContext())
+            .setItems(R.array.delete_list) { dialog, which ->
+               when(which){
+                   0-> {
+                       cardsViewModel.cardDeleteVM(cardModel)
+                       viewmodel.dbReadVM()
+                       viewmodel.dbList().observe(viewLifecycleOwner, Observer {
+                           cardHomeAdapter!!.submitList(it)
+
+                       })
+
+                       dialog.dismiss()
+                   }
+                   1->{
+                     cardsViewModel.updateCardVM(cardModel)
+                   }
+                   2->{
+                     getString(R.string.bloc_card)
+                   }
+               }
+            }
+            .create()
+        dialog.show()
     }
 }

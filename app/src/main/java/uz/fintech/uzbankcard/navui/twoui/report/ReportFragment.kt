@@ -12,6 +12,7 @@ import uz.fintech.uzbankcard.R
 import uz.fintech.uzbankcard.common.cardDateUtils
 import uz.fintech.uzbankcard.common.cardNumber
 import uz.fintech.uzbankcard.common.lazyFast
+import uz.fintech.uzbankcard.common.toast
 import uz.fintech.uzbankcard.model.CardModel
 import uz.fintech.uzbankcard.network.NetworkStatus
 import uz.fintech.uzbankcard.utils.CardExpiryDateFormatWatcher
@@ -87,6 +88,8 @@ class ReportFragment : Fragment(R.layout.report_fragment) {
 
 
         gb_report.setOnClickListener {
+
+            if (!cardNumbers.isNullOrEmpty() && !cardDate.isNullOrEmpty()){
             if (cardNumbers!!.length.equals(16) &&
                 cardDate!!.length.equals(4) &&
                 ed_report_card_money.text.isNullOrEmpty()
@@ -110,6 +113,8 @@ class ReportFragment : Fragment(R.layout.report_fragment) {
                     ed_report_card_money.text.toString(),
                     "${cardNumbers}${cardDate}"
                 )
+            }}else{
+                requireContext().toast(getString(R.string.isnull_edittext))
             }
         }
         viewModel.ldStatus().observe(viewLifecycleOwner,observable)

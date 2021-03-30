@@ -6,6 +6,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import io.reactivex.disposables.CompositeDisposable
 import uz.fintech.uzbankcard.common.lazyFast
+import uz.fintech.uzbankcard.model.CardColorModel
 import uz.fintech.uzbankcard.model.CardModel
 import uz.fintech.uzbankcard.navui.database.BuilderDB
 import uz.fintech.uzbankcard.network.NetworkStatus
@@ -22,8 +23,6 @@ class AddCardViewModel(app: Application) :
     AndroidViewModel(app), IAddCard {
 
 
-    private val lD by lazyFast { BuilderDB.instanse(app.applicationContext) }
-    private val preferens by lazyFast { PreferenceManager.instanse(app.applicationContext) }
     private var ldsearchVM = MutableLiveData<CardModel>()
     private var livestatusVM = MutableLiveData<NetworkStatus>()
     private val cd = CompositeDisposable()
@@ -42,23 +41,13 @@ class AddCardViewModel(app: Application) :
 
     override fun saveLocalDB() {
         addCardRepo.localDBsave()
-        /*  if (!preferens.isCardSaveBoolean){
-              preferens.isCardModelSave=saveCard
-              preferens.isCardSaveBoolean=true
-          }
-          val historyDB=HistoryDB(cardnumdb = saveCard)
-          try {
-              val disposable=lD.getCardDao().insert(historyDB)
-                  .subscribeOn(Schedulers.io())
-                  .observeOn(AndroidSchedulers.mainThread())
-                  .subscribe()
-              cd.add(disposable)
-          }catch (e:Exception){
-              e.printStackTrace()
-          }*/
     }
     fun statusVM():LiveData<NetworkStatus>{
         livestatusVM=addCardRepo.ldStatus()
         return livestatusVM
+    }
+
+    fun colorVM(cardModel:CardModel, cardColorModel: CardColorModel){
+        addCardRepo.ColorRepo(cardModel,cardColorModel)
     }
 }

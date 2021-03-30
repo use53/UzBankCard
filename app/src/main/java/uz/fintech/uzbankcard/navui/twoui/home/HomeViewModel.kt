@@ -7,6 +7,7 @@ import androidx.lifecycle.MutableLiveData
 import com.github.mikephil.charting.data.BarData
 import com.github.mikephil.charting.data.BarEntry
 import uz.fintech.uzbankcard.common.lazyFast
+import uz.fintech.uzbankcard.model.CardColorModel
 import uz.fintech.uzbankcard.model.CardModel
 import uz.fintech.uzbankcard.navui.database.paymentsave.PaymentHistory
 import uz.fintech.uzbankcard.network.NetworkStatus
@@ -63,5 +64,12 @@ class HomeViewModel(val app: Application) : AndroidViewModel(app), IHomeVH {
     fun dbList(): LiveData<MutableList<CardModel>> {
         return dbroomld
     }
+
+    fun onClickCardColorVM(cardModel: CardModel,cardColorModel: CardColorModel){
+        homeRepo.onClickCardColor(cardModel,cardColorModel)
+
+    }
+
+
 
 }

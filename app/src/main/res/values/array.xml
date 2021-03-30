@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+    <string-array name="delete_list">
+        <item>Delete</item>
+        <item>Asosiy</item>
+        <item>Bloklash</item>
+    </string-array>
+</resources>

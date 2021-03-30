@@ -9,6 +9,7 @@ import com.google.firebase.database.ValueEventListener
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import uz.fintech.uzbankcard.common.lazyFast
+import uz.fintech.uzbankcard.model.CardColorModel
 import uz.fintech.uzbankcard.model.CardModel
 import uz.fintech.uzbankcard.navui.database.BuilderDB
 import uz.fintech.uzbankcard.navui.database.HistoryDB
@@ -83,5 +84,25 @@ class AddCardRepo(ctx: Context) {
     }
     fun ldStatus():MutableLiveData<NetworkStatus>{
         return livestatus
+    }
+
+    fun ColorRepo(cardModel:CardModel,cardColorModel: CardColorModel){
+        firebaseDB.reference.child("card")
+            .orderByChild("cardnum").startAt(cardModel.cardnum)
+            .endAt(cardModel.cardnum+"\uf8ff")
+            .addListenerForSingleValueEvent(object :ValueEventListener{
+                override fun onCancelled(error: DatabaseError) {
+                    TODO("Not yet implemented")
+                }
+
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    snapshot.children.forEach {
+                        val map = hashMapOf<String, Long>()
+                        map.put("color",cardColorModel.colors.toLong())
+                        firebaseDB.reference.child("card").child(it.ref.key!!)
+                            .updateChildren(map as Map<String, Any>)
+                    }
+                }
+            })
     }
 }

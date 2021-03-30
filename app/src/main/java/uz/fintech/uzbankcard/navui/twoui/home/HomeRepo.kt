@@ -11,11 +11,12 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
-import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.functions.Consumer
 import io.reactivex.schedulers.Schedulers
 import uz.fintech.uzbankcard.api.ICurrencieApi
 import uz.fintech.uzbankcard.common.lazyFast
+import uz.fintech.uzbankcard.model.CardColorModel
 import uz.fintech.uzbankcard.model.CardModel
 import uz.fintech.uzbankcard.model.currencie.CurrencieModel
 import uz.fintech.uzbankcard.navui.database.BuilderDB
@@ -43,29 +44,31 @@ class HomeRepo(ctx: Context) {
     val listReduser = MutableLiveData<MutableList<CardModel>>()
     private val firebaseDB by lazyFast { FirebaseDatabase.getInstance().reference }
     private val currencies by lazyFast { ICurrencieApi.instanse() }
-     val apibardata = MutableLiveData<BarData>()
-    private val networkstatus=MutableLiveData<NetworkStatus>()
-   private val paymentLivedata=MutableLiveData<MutableList<PaymentHistory>>()
-    fun dBread() {
-       Handler().postDelayed(Runnable {
-           networkstatus.postValue(NetworkStatus.Loading)
-           db.getCardDao().loadAll()
-               .subscribeOn(Schedulers.io())
-               .observeOn(AndroidSchedulers.mainThread())
-               .doOnError {
-                   networkstatus.postValue(NetworkStatus.Error(it.message!!.length))
-               }
-               .doOnSuccess {
+    val apibardata = MutableLiveData<BarData>()
+    private val networkstatus = MutableLiveData<NetworkStatus>()
+    private val ldColor=MutableLiveData<CardModel>()
 
-                   readHistory(it)
-               }
-               .subscribe()
-       },2_000)
+    private val paymentLivedata = MutableLiveData<MutableList<PaymentHistory>>()
+    fun dBread() {
+        Handler().postDelayed({
+            networkstatus.postValue(NetworkStatus.Loading)
+            db.getCardDao().loadAll()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnError {
+                    networkstatus.postValue(NetworkStatus.Error(it.message!!.length))
+                }
+                .doOnSuccess {
+
+                    readHistory(it)
+                }
+                .subscribe()
+        }, 2_000)
 
     }
 
-    fun paymentDb(){
-        val list= mutableListOf<PaymentHistory>()
+    fun paymentDb() {
+        val list = mutableListOf<PaymentHistory>()
         db.paymentdao().loadAllPt()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
@@ -74,20 +77,20 @@ class HomeRepo(ctx: Context) {
             }
             .doOnSuccess {
                 if (it.isNotEmpty())
-                paymentLivedata.postValue(it)
-                else{
-                    list.add(PaymentHistory("Malumotlar Mavjud Emas",0L,""))
+                    paymentLivedata.postValue(it)
+                else {
+                    list.add(PaymentHistory("Malumotlar Mavjud Emas", 0L, ""))
                     paymentLivedata.postValue(list)
                 }
             }
             .subscribe()
     }
 
-    fun status():MutableLiveData<NetworkStatus>{
-        return  networkstatus
+    fun status(): MutableLiveData<NetworkStatus> {
+        return networkstatus
     }
 
-    fun  paymentLiveData():MutableLiveData<MutableList<PaymentHistory>>{
+    fun paymentLiveData(): MutableLiveData<MutableList<PaymentHistory>> {
         return paymentLivedata
     }
 
@@ -96,37 +99,37 @@ class HomeRepo(ctx: Context) {
         val roomList = mutableListOf<CardModel>()
         if (historyList != null) {
 
-                firebaseDB.child("card")
-                    .addValueEventListener(
-                        object : ValueEventListener {
-                            override fun onCancelled(error: DatabaseError) {
+            firebaseDB.child("card")
+                .addListenerForSingleValueEvent(
+                    object : ValueEventListener {
+                        override fun onCancelled(error: DatabaseError) {
                             networkstatus.postValue(NetworkStatus.Error(error.code))
-                            }
+                        }
 
-                            override fun onDataChange(snapshot: DataSnapshot) {
-                                //
-                                networkstatus.postValue(NetworkStatus.Success)
-                                if (!historyList.isEmpty()){
+                        override fun onDataChange(snapshot: DataSnapshot) {
+                            //
+                            networkstatus.postValue(NetworkStatus.Success)
+                            if (!historyList.isEmpty()) {
                                 snapshot.children.forEach {
                                     val snp = it.getValue(CardModel::class.java)
-                                   // if (!historyList.isEmpty()){
+                                    // if (!historyList.isEmpty()){
                                     historyList.forEach {
                                         if (it.cardnumdb == snp!!.cardnum) {
-                                            roomList.add(snp)
+                                         roomList.add(snp)
                                             networkstatus.postValue(NetworkStatus.Success)
                                         }
                                     }
 
-                                }}
-                                else{
-                                    roomList.add(CardModel(cardnum = "####################"))
                                 }
-                                listReduser.postValue(roomList)
-
+                            } else {
+                                roomList.add(CardModel(cardnum = "####################"))
                             }
+                            listReduser.postValue(roomList)
 
                         }
-                    )
+
+                    }
+                )
 
         }
 
@@ -142,9 +145,9 @@ class HomeRepo(ctx: Context) {
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({ responsApi(it) }, {
-                if (it is UnknownHostException){
+                if (it is UnknownHostException) {
                     networkstatus.postValue(NetworkStatus.Offline())
-                }else{
+                } else {
                     networkstatus.postValue(NetworkStatus.Error(it.hashCode()))
                 }
             })
@@ -160,7 +163,7 @@ class HomeRepo(ctx: Context) {
             chartlist.add(BarEntry(4F, it.quotes.uSDUZS.toFloat()))
             chartlist.add(BarEntry(5F, it.quotes.uSDTJS.toFloat()))
             chartlist.add(BarEntry(6F, it.quotes.uSDTMT.toFloat()))
-        }else{
+        } else {
             networkstatus.postValue(NetworkStatus.Offline())
         }
         val barDataSet = BarDataSet(chartlist, "valyuta")
@@ -168,6 +171,34 @@ class HomeRepo(ctx: Context) {
         bardata.addDataSet(barDataSet)
         apibardata.postValue(bardata)
     }
+
+
+    @SuppressLint("CheckResult")
+    fun onClickCardColor(cardModel: CardModel,
+                         cardColorModel:
+                         CardColorModel){
+
+
+        firebaseDB.child("card")
+            .orderByChild("cardnum")
+            .startAt(cardModel.cardnum)
+            .endAt(cardModel.cardnum+"\uf8ff")
+            .addListenerForSingleValueEvent(object :ValueEventListener{
+                override fun onCancelled(error: DatabaseError) {
+
+                }
+
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    snapshot.children.forEach {
+                        val map = hashMapOf<String, Long>()
+                        map.put("color",cardColorModel.colors.toLong())
+                        firebaseDB.child("card").child(it.ref.key!!)
+                            .updateChildren(map as Map<String, Any>)
+                    }
+                }
+            })
+    }
+
 
 
 

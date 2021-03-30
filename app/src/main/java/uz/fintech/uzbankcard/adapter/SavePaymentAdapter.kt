@@ -19,7 +19,6 @@ class SavePaymentAdapter() : ListAdapter<PaymentHistory,
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VHPayment {
         val view =parent.inflate(LayoutInflater.from(parent.context),R.layout.payment_layout)
-           // LayoutInflater.from(parent.context).inflate(R.layout.payment_layout, parent, false)
         return VHPayment(view)
     }
 

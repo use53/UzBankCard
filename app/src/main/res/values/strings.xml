@@ -45,9 +45,17 @@
     <string name="dialog_code">kodini kiriting</string>
     <string name="mondey_dialog">summa</string>
     <string name="positiv_dialog">To\'lov</string>
-    <string name="negativ_dialog">Qaytish</string>
+    <string name="negativ_dialog">Yopish</string>
     <string name="update_payment">"malumotlar xato "</string>
     <string name="cards_list">Kartalar</string>
     <string name="card_update">to\'lash</string>
     <string name="map_title">Xarita</string>
+    <string name="card_color">oldin kartani tanlang</string>
+    <string name="main_payment">To\'lovlar uchun</string>
+    <string name="delete">Uchirish</string>
+    <string name="card_blog">kartani biloklash</string>
+    <string name="isnull_edittext">karta raqami va muddatini kiriting</string>
+    <string name="add_card_color">oldin karta kiritng</string>
+    <string name="bloc_card">Karta bloklandi</string>
+    <string name="vertical">ko\'rinish</string>
 </resources>

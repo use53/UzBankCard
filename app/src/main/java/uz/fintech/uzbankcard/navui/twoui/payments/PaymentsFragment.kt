@@ -37,7 +37,12 @@ class PaymentsFragment : Fragment(R.layout.payments_fragment), IPaymentOnClick {
            is StatusLoading.Error->showBeginLoading()
            is StatusLoading.Loading->showLoading()
            is StatusLoading.SuccessUpdate->showUpdateSuccess()
+           is StatusLoading.DeleteCard->deleteCard()
        }
+    }
+
+    private fun deleteCard() {
+        requireContext().toast("karta mavjud emas")
     }
 
     private fun showUpdateSuccess() {

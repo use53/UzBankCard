@@ -72,6 +72,7 @@ class PaymentRepo(ctx: Context) {
     }
 
     fun paymentUpdate(money: String, name: String) {
+        if (preference.isCardSaveBoolean){
         statusLoading.postValue(StatusLoading.Loading)
         val query = firebaseDB.child("card").orderByChild("cardnum")
             .startAt(preference.isCardModelSave)
@@ -87,7 +88,9 @@ class PaymentRepo(ctx: Context) {
                     updateMoney(snp, money, name, it)
                 }
             }
-        })
+        })}else{
+            statusLoading.postValue(StatusLoading.DeleteCard)
+        }
     }
 
     fun statusRepo(): MutableLiveData<StatusLoading> {

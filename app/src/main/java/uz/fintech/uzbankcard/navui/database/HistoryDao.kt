@@ -1,11 +1,9 @@
 package uz.fintech.uzbankcard.navui.database
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 import io.reactivex.Completable
 import io.reactivex.Single
+import uz.fintech.uzbankcard.model.CardModel
 
 @Dao
 interface HistoryDao {
@@ -15,5 +13,11 @@ interface HistoryDao {
 
     @Query("select * from HistoryDB")
     fun loadAll(): Single<List<HistoryDB>>
+
+    @Delete()
+    fun delete(user:HistoryDB):Completable
+
+    @Query("select * from HistoryDB where cardnumdb=:cardnum")
+    fun loadFirst(cardnum: String): Single<HistoryDB>
 
 }

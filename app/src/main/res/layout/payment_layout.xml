@@ -1,9 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+
+<io.armcha.elasticview.ElasticView
+    android:id="@+id/color_elastic"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="50dp"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_marginTop="5dp"
+    android:layout_marginStart="10dp"
+    android:layout_marginEnd="10dp"
+    android:layout_marginBottom="5dp"
+    android:layout_height="80dp"
+    app:cardCornerRadius="10dp"
+    app:cardElevation="10dp"
+    app:flexibility="8"
+    xmlns:tools="http://schemas.android.com/tools">
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+   >
 
 
     <androidx.appcompat.widget.AppCompatTextView
@@ -43,3 +57,4 @@
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+</io.armcha.elasticview.ElasticView>

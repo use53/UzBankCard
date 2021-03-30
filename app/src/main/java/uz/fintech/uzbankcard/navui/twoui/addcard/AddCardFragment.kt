@@ -14,7 +14,12 @@ import kotlinx.android.synthetic.main.activity_navigation.*
 import kotlinx.android.synthetic.main.add_card_fragment.*
 import uz.click.mobilesdk.utils.CardExpiryDateFormatWatcher
 import uz.fintech.uzbankcard.R
+import uz.fintech.uzbankcard.adapter.CardsColorAdapter
 import uz.fintech.uzbankcard.common.*
+import uz.fintech.uzbankcard.model.CardColorModel
+import uz.fintech.uzbankcard.model.CardModel
+import uz.fintech.uzbankcard.navui.onclikc.ICardColorOnClick
+import uz.fintech.uzbankcard.navui.twoui.cards.CardsViewModel
 import uz.fintech.uzbankcard.network.NetworkStatus
 import uz.fintech.uzbankcard.utils.CardNumberFormatWatcher
 
@@ -28,6 +33,9 @@ class AddCardFragment() : Fragment(R.layout.add_card_fragment),
     private lateinit var handler: Handler
     private var number: String? = null
     private var interval: String? = null
+    private val viewModel: AddCardViewModel by activityViewModels()
+    private val cardsViewModel: CardsViewModel by activityViewModels()
+    private var cardModel:CardModel?=null
 
     private val observerstatus = Observer<NetworkStatus> {
         when (it) {
@@ -45,6 +53,7 @@ class AddCardFragment() : Fragment(R.layout.add_card_fragment),
         handler.postDelayed({
             lottie_okay.visibility = View.INVISIBLE
             save_card_toolbar.visibility = View.VISIBLE
+            rec_card_color.visibility=View.VISIBLE
         }, 3000)
     }
 
@@ -66,11 +75,13 @@ class AddCardFragment() : Fragment(R.layout.add_card_fragment),
 
     }
 
-    private val viewModel: AddCardViewModel by activityViewModels()
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-         onBack()
+        onBack()
+        itemColor()
+
         val cardNumberFormatWatcher = object : CardNumberFormatWatcher(ed_card_add) {
             override fun afterTextWithoutPattern(cardNumber: String) {
                 number = cardNumber
@@ -88,21 +99,37 @@ class AddCardFragment() : Fragment(R.layout.add_card_fragment),
         save_card_toolbar.setOnClickListener {
 
             viewModel.saveLocalDB()
-            requireActivity().nav_view.isGone=false
+            requireActivity().nav_view.isGone = false
             navController.navigate(R.id.payments_navigation)
 
 
         }
     }
 
+    private fun itemColor() {
+        val cardColorAdapter = CardsColorAdapter(object :ICardColorOnClick{
+            override fun colorOnClickListener(cardColorModel: CardColorModel) {
+                viewModel.colorVM(cardModel!!,cardColorModel)
+              /*  con_add_card.setBackgroundColor(cardModel!!.cardcolor)
+                viewModel.searchFirebase("${number}${interval}")*/
+
+
+            }
+        })
+        rec_card_color.adapter = cardColorAdapter
+        cardsViewModel.colorListVM()
+        cardsViewModel.ldColorVM().observe(viewLifecycleOwner, Observer {
+            cardColorAdapter.submitList(it)
+        })
+    }
+
     private fun onBack() {
         requireActivity()
             .onBackPressedDispatcher
-            .addCallback(viewLifecycleOwner,object : OnBackPressedCallback(true) {
+            .addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
                 override fun handleOnBackPressed() {
-                    requireActivity().nav_view.isGone=false
+                    requireActivity().nav_view.isGone = false
                     navController.popBackStack(R.id.home_navigation, false)
-
                 }
 
             })
@@ -122,17 +149,27 @@ class AddCardFragment() : Fragment(R.layout.add_card_fragment),
 
     @SuppressLint("SetTextI18n")
     override fun onClick(v: View?) {
-        if (number!!.length > 15 && interval!!.length > 3) {
-            viewModel.statusVM().observe(viewLifecycleOwner,observerstatus)
-            viewModel.searchFirebase("${number}${interval}")
-            viewModel.ldSearch().observe(viewLifecycleOwner, Observer {
-              card_add_money.text = "${it!!.money.toDouble().formatDecimals()}.00 so'm"
-                card_firstname.text = it.firstname
-                card_surname.text = it.surname
-            })
+        if (!number.isNullOrEmpty() && !interval.isNullOrEmpty()) {
+            if (number!!.length > 15 && interval!!.length > 3) {
+
+                viewModel.statusVM().observe(viewLifecycleOwner, observerstatus)
+                viewModel.searchFirebase("${number}${interval}")
+                viewModel.ldSearch().observe(viewLifecycleOwner, Observer {
+
+                        cardModel=it
+                    card_add_money.text = "${it!!.money.toDouble().formatDecimals()}.00 so'm"
+                    card_firstname.text = it.firstname
+                    card_surname.text = it.surname
+                   // con_add_card.setBackgroundColor(it.cardcolor)
+                })
+            } else {
+                requireContext().toast(getString(R.string.add_card))
+            }
         } else {
-            requireContext().toast(getString(R.string.add_card))
+            requireContext().toast(getString(R.string.isnull_edittext))
         }
     }
+
+
 
 }
