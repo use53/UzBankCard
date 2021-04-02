@@ -35,11 +35,6 @@ class CardHomeAdapter(val iHomeCardOnClick: IHomeCardOnClick) : RecyclerView.Ada
 
     }
 
-  /*  fun itemList(cardModel: CardModel) {
-  list.add(cardModel)
-       notifyDataSetChanged()
-    }*/
-
     fun submitList(cardList: MutableList<CardModel>) {
         list.clear()
         list.addAll(cardList)

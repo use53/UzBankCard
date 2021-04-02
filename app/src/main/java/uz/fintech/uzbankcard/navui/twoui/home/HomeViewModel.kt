@@ -1,11 +1,15 @@
 package uz.fintech.uzbankcard.navui.twoui.home
 
 import android.app.Application
+import android.content.ClipData
+import android.graphics.drawable.Drawable
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.recyclerview.widget.ItemTouchHelper
 import com.github.mikephil.charting.data.BarData
 import com.github.mikephil.charting.data.BarEntry
+import uz.fintech.uzbankcard.adapter.SavePaymentAdapter
 import uz.fintech.uzbankcard.common.lazyFast
 import uz.fintech.uzbankcard.model.CardColorModel
 import uz.fintech.uzbankcard.model.CardModel
@@ -28,9 +32,10 @@ class HomeViewModel(val app: Application) : AndroidViewModel(app), IHomeVH {
     private var dbroomld = MutableLiveData<MutableList<CardModel>>()
     private var apilivedata = MutableLiveData<BarData>()
     private var statusVH = MutableLiveData<NetworkStatus>()
+    private var ldtouchVM=MutableLiveData<ItemTouchHelper>()
 
     override fun readApiSerVM() {
-    // homeRepo.restApi()
+    //homeRepo.restApi()
         apilivedata = homeRepo.apibardata
     }
 
@@ -68,6 +73,15 @@ class HomeViewModel(val app: Application) : AndroidViewModel(app), IHomeVH {
     fun onClickCardColorVM(cardModel: CardModel,cardColorModel: CardColorModel){
         homeRepo.onClickCardColor(cardModel,cardColorModel)
 
+    }
+
+    fun onRecyclerviewDeleteItem(adapter: SavePaymentAdapter,icon:Drawable){
+        homeRepo.onRecyclerviewCallback(adapter,icon)
+        ldtouchVM=homeRepo.ldtouchHelper()
+    }
+
+    fun ldRecylerviewDeleteId():LiveData<ItemTouchHelper>{
+        return ldtouchVM
     }
 
 

@@ -46,6 +46,7 @@ class ReportRepo(ctx:Context){
     private val status=MutableLiveData<NetworkStatus>()
 
     fun loadItemRt(cardnumber: String){
+              if (preferense.isCardSaveBoolean && preferense.isCardModelSave!=cardnumber){
         val searchNumber = firebaseDb.
         orderByChild("cardnum").startAt(cardnumber).endAt(cardnumber + "\uf8ff")
         searchNumber.addListenerForSingleValueEvent(object : ValueEventListener {
@@ -60,8 +61,10 @@ class ReportRepo(ctx:Context){
                 }
             }
 
-        })
-
+        })}else{
+                  status.postValue(NetworkStatus.NoCardError)
+              }
+     //
     }
 
     fun ldCardModel(): MutableLiveData<CardModel> {
@@ -83,7 +86,8 @@ class ReportRepo(ctx:Context){
             override fun onDataChange(snapshot: DataSnapshot) {
                 snapshot.children.forEach {
                     val snp=it.getValue(CardModel::class.java)
-                    if (snp!=null && snp.cardnum==preferense.isCardModelSave){
+                    if (snp!=null && snp.cardnum==saveNumber){
+                        //
                         val minusM=snp.money
                         val moneyMin=(minusM-money.toLong())
                         val maps = hashMapOf<String, Long>()
@@ -93,8 +97,9 @@ class ReportRepo(ctx:Context){
                         builderDb.paymentdao()
                             .insertPt(
                                 PaymentHistory(snp.cardname.toString()
-                                ,money.toLong(),"2020-12-01")
+                                ,money.toLong(),saveNumber)
                             )
+                                ///
                             .subscribeOn(Schedulers.io())
                             .observeOn(AndroidSchedulers.mainThread())
                             .subscribe()

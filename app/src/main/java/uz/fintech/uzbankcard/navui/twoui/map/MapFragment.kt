@@ -29,6 +29,7 @@ class MapFragment :Fragment(R.layout.map_fragment){
     private val mapViewModel:MapViewModel by activityViewModels()
     private var mapController: MapController?=null
     private val mapAdapter by lazyFast { MapAdapter() }
+
     @SuppressLint("UseCompatLoadingForDrawables")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

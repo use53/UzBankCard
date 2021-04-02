@@ -2,8 +2,12 @@ package uz.fintech.uzbankcard.navui.twoui.home
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.graphics.Canvas
+import android.graphics.drawable.Drawable
 import android.os.Handler
 import androidx.lifecycle.MutableLiveData
+import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.RecyclerView
 import com.github.mikephil.charting.data.BarData
 import com.github.mikephil.charting.data.BarDataSet
 import com.github.mikephil.charting.data.BarEntry
@@ -11,9 +15,11 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.functions.Consumer
 import io.reactivex.schedulers.Schedulers
+import uz.fintech.uzbankcard.adapter.SavePaymentAdapter
 import uz.fintech.uzbankcard.api.ICurrencieApi
 import uz.fintech.uzbankcard.common.lazyFast
 import uz.fintech.uzbankcard.model.CardColorModel
@@ -46,12 +52,10 @@ class HomeRepo(ctx: Context) {
     private val currencies by lazyFast { ICurrencieApi.instanse() }
     val apibardata = MutableLiveData<BarData>()
     private val networkstatus = MutableLiveData<NetworkStatus>()
-    private val ldColor=MutableLiveData<CardModel>()
-
+    private val touchcallbac= MutableLiveData<ItemTouchHelper>()
     private val paymentLivedata = MutableLiveData<MutableList<PaymentHistory>>()
     fun dBread() {
         Handler().postDelayed({
-            networkstatus.postValue(NetworkStatus.Loading)
             db.getCardDao().loadAll()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -63,7 +67,7 @@ class HomeRepo(ctx: Context) {
                     readHistory(it)
                 }
                 .subscribe()
-        }, 2_000)
+        }, 1_000)
 
     }
 
@@ -79,7 +83,7 @@ class HomeRepo(ctx: Context) {
                 if (it.isNotEmpty())
                     paymentLivedata.postValue(it)
                 else {
-                    list.add(PaymentHistory("Malumotlar Mavjud Emas", 0L, ""))
+                    list.add(PaymentHistory("Malumotlar", 0L, ""))
                     paymentLivedata.postValue(list)
                 }
             }
@@ -95,9 +99,9 @@ class HomeRepo(ctx: Context) {
     }
 
     fun readHistory(historyList: List<HistoryDB>?) {
-        networkstatus.postValue(NetworkStatus.Loading)
         val roomList = mutableListOf<CardModel>()
         if (historyList != null) {
+            networkstatus.postValue(NetworkStatus.Loading)
 
             firebaseDB.child("card")
                 .addListenerForSingleValueEvent(
@@ -107,21 +111,19 @@ class HomeRepo(ctx: Context) {
                         }
 
                         override fun onDataChange(snapshot: DataSnapshot) {
-                            //
-                            networkstatus.postValue(NetworkStatus.Success)
                             if (!historyList.isEmpty()) {
+                                networkstatus.postValue(NetworkStatus.Success)
                                 snapshot.children.forEach {
                                     val snp = it.getValue(CardModel::class.java)
-                                    // if (!historyList.isEmpty()){
                                     historyList.forEach {
                                         if (it.cardnumdb == snp!!.cardnum) {
                                          roomList.add(snp)
-                                            networkstatus.postValue(NetworkStatus.Success)
                                         }
                                     }
 
                                 }
                             } else {
+                                networkstatus.postValue(NetworkStatus.Success)
                                 roomList.add(CardModel(cardnum = "####################"))
                             }
                             listReduser.postValue(roomList)
@@ -144,13 +146,7 @@ class HomeRepo(ctx: Context) {
         currencies!!.loadCours()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({ responsApi(it) }, {
-                if (it is UnknownHostException) {
-                    networkstatus.postValue(NetworkStatus.Offline())
-                } else {
-                    networkstatus.postValue(NetworkStatus.Error(it.hashCode()))
-                }
-            })
+            .subscribe({ responsApi(it) }, { networkstatus.postValue(NetworkStatus.Error(it.hashCode())) })
 
     }
 
@@ -163,8 +159,6 @@ class HomeRepo(ctx: Context) {
             chartlist.add(BarEntry(4F, it.quotes.uSDUZS.toFloat()))
             chartlist.add(BarEntry(5F, it.quotes.uSDTJS.toFloat()))
             chartlist.add(BarEntry(6F, it.quotes.uSDTMT.toFloat()))
-        } else {
-            networkstatus.postValue(NetworkStatus.Offline())
         }
         val barDataSet = BarDataSet(chartlist, "valyuta")
         val bardata = BarData()
@@ -199,8 +193,69 @@ class HomeRepo(ctx: Context) {
             })
     }
 
+    fun onRecyclerviewCallback(adapter:SavePaymentAdapter,icon:Drawable){
+        val callback=object :ItemTouchHelper.SimpleCallback(0,ItemTouchHelper.RIGHT){
+            override fun onMove(
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder,
+                target: RecyclerView.ViewHolder
+            ): Boolean {
+                return false
+            }
 
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder,
+                                  direction: Int) {
+               val pos=viewHolder.adapterPosition
+                adapter.updateList(pos)
+                val deleteItem = adapter.getWordAtPosition(pos)
+                if (pos.equals(0)) {
+                    historyItemDelete(deleteItem)
+                }
+            }
 
+            override fun onChildDraw(
+                c: Canvas,
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder,
+                dX: Float,
+                dY: Float,
+                actionState: Int,
+                isCurrentlyActive: Boolean
+            ) {
+                super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
+                 val correntView=viewHolder.itemView
+                val iconMagin=(correntView.height-icon.intrinsicHeight)/2
+                val iconTop=correntView.top-iconMagin
+                val iconBottom=iconTop+icon.intrinsicHeight
+                if (dX>0){
+                    val iconLeft=correntView.left+iconMagin
+                    val iconRight=iconLeft+icon.intrinsicHeight
+                    icon.setBounds(iconLeft,iconTop,iconRight,iconBottom)
+                }else if (dX<0){
 
+                }
+                else{
+                    icon.setBounds(0,0,0,0)
+                }
+                icon.draw(c)
+            }
+        }
+        val helper=ItemTouchHelper(callback)
+        touchcallbac.postValue(helper)
+    }
+
+    fun ldtouchHelper(): MutableLiveData<ItemTouchHelper> {
+        return touchcallbac
+    }
+
+   private fun historyItemDelete(paymentHistory: PaymentHistory) {
+         db.paymentdao().deleteItem(paymentHistory)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe()
+    }
 
 }
+
+
+

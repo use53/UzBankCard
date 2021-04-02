@@ -9,10 +9,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import kotlinx.android.synthetic.main.report_fragment.*
 import uz.fintech.uzbankcard.R
-import uz.fintech.uzbankcard.common.cardDateUtils
-import uz.fintech.uzbankcard.common.cardNumber
-import uz.fintech.uzbankcard.common.lazyFast
-import uz.fintech.uzbankcard.common.toast
+import uz.fintech.uzbankcard.common.*
 import uz.fintech.uzbankcard.model.CardModel
 import uz.fintech.uzbankcard.network.NetworkStatus
 import uz.fintech.uzbankcard.utils.CardExpiryDateFormatWatcher
@@ -21,13 +18,23 @@ import uz.fintech.uzbankcard.utils.PreferenceManager
 
 @Suppress("DEPRECATION")
 class ReportFragment : Fragment(R.layout.report_fragment) {
+    private var corrent=false
+
 
     private val observable = Observer<NetworkStatus>{
-        when(it){
+        if (corrent){
+            when(it){
             is NetworkStatus.Loading->showLoading()
             is NetworkStatus.Success->showSuccess()
             is NetworkStatus.Error->ErrorCodeItem()
+            is NetworkStatus.NoCardError->noCardError()
         }
+
+        }
+    }
+
+    private fun noCardError() {
+        requireContext().showDialogNoCard("karta mavjud emas")
     }
 
     private fun ErrorCodeItem() {
@@ -94,6 +101,7 @@ class ReportFragment : Fragment(R.layout.report_fragment) {
                 cardDate!!.length.equals(4) &&
                 ed_report_card_money.text.isNullOrEmpty()
             ) {
+                corrent=true
                     viewModel.loadItemRt("${cardNumbers}${cardDate}")
                     viewModel.ldcardModelVM().observe(viewLifecycleOwner, Observer {
                         if (it != null) {

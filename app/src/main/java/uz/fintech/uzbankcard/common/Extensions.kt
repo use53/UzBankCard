@@ -1,5 +1,6 @@
 package uz.fintech.uzbankcard.common
 
+import android.app.AlertDialog
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
@@ -8,6 +9,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.Toast
 import androidx.annotation.LayoutRes
+import uz.fintech.uzbankcard.R
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
 
@@ -77,4 +79,14 @@ fun Context.toast(msg:String){
 
 fun ViewGroup.inflate(inflater:LayoutInflater,@LayoutRes id:Int):View{
     return inflater.inflate(id,this,false)
+}
+
+fun Context.showDialogNoCard(title:String) {
+    val dialog= AlertDialog.Builder(this)
+        .setMessage(title)
+        .setPositiveButton(R.string.negativ_dialog) { dialog, _ ->
+            dialog.dismiss()
+        }
+        .create()
+    dialog.show()
 }

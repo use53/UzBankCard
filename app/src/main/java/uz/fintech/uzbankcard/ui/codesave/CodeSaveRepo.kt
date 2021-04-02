@@ -49,7 +49,6 @@ class CodeSaveRepo {
         livedata.postValue(NetworkStatus.Loading)
         val preference =PreferenceManager.instanse(ctx)
         val codes=list.joinToString("")
-       // val codeFirebaseModel=CodeFirebaseModel(preference.isCallNumber,code)
             firebaseDB.getReference(".info/connected").addValueEventListener(object: ValueEventListener{
                 override fun onCancelled(error: DatabaseError) {
                     livedata.postValue(NetworkStatus.Error(errorMsg = error.message.length))

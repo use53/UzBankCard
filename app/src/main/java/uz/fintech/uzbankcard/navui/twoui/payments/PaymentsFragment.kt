@@ -2,6 +2,7 @@ package uz.fintech.uzbankcard.navui.twoui.payments
 
 
 import android.app.AlertDialog
+import android.content.DialogInterface
 import android.os.Bundle
 import android.os.Handler
 import android.view.View
@@ -16,10 +17,7 @@ import kotlinx.android.synthetic.main.dialog_layout.view.*
 import kotlinx.android.synthetic.main.payments_fragment.*
 import uz.fintech.uzbankcard.R
 import uz.fintech.uzbankcard.adapter.PaymentsAdapter
-import uz.fintech.uzbankcard.common.etExtension
-import uz.fintech.uzbankcard.common.getString
-import uz.fintech.uzbankcard.common.lazyFast
-import uz.fintech.uzbankcard.common.toast
+import uz.fintech.uzbankcard.common.*
 import uz.fintech.uzbankcard.model.PaymentModel
 import uz.fintech.uzbankcard.navui.onclikc.IPaymentOnClick
 import uz.fintech.uzbankcard.network.NetworkStatus
@@ -29,8 +27,12 @@ import uz.fintech.uzbankcard.network.StatusLoading
 @Suppress("DEPRECATION")
 class PaymentsFragment : Fragment(R.layout.payments_fragment), IPaymentOnClick {
 
+
+
     private var isBoolean=false
+    private var corrent=false
     private val obserable= Observer<StatusLoading>{
+        if (corrent){
        when(it){
            is StatusLoading.LoadingBigin->showBeginLoading()
            is StatusLoading.Success->showSuccess()
@@ -38,12 +40,15 @@ class PaymentsFragment : Fragment(R.layout.payments_fragment), IPaymentOnClick {
            is StatusLoading.Loading->showLoading()
            is StatusLoading.SuccessUpdate->showUpdateSuccess()
            is StatusLoading.DeleteCard->deleteCard()
-       }
+       }}
     }
 
     private fun deleteCard() {
+       requireContext().showDialogNoCard(getString(R.string.dialog_nocard))
         requireContext().toast("karta mavjud emas")
     }
+
+
 
     private fun showUpdateSuccess() {
        if (isBoolean){
@@ -71,9 +76,9 @@ class PaymentsFragment : Fragment(R.layout.payments_fragment), IPaymentOnClick {
         payment_lottie.visibility=View.VISIBLE
     }
 
-    private val navController by lazyFast {
+   /* private val navController by lazyFast {
         Navigation.findNavController(requireActivity(), R.id.nav_host_fragment)
-    }
+    }*/
     private val viewModel:PaymentViewMOdel by activityViewModels()
   private val  paymentAdapter by lazyFast { PaymentsAdapter(this) }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -100,6 +105,7 @@ class PaymentsFragment : Fragment(R.layout.payments_fragment), IPaymentOnClick {
 
     override fun onClickListener(paymentModel: PaymentModel) {
 
+        corrent=true
         val view= layoutInflater.inflate(R.layout.dialog_layout,null)
  val dialog=AlertDialog.Builder(requireContext())
             .setView(view)

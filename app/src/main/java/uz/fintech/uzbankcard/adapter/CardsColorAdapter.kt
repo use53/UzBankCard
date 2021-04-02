@@ -12,7 +12,8 @@ import uz.fintech.uzbankcard.common.inflate
 import uz.fintech.uzbankcard.model.CardColorModel
 import uz.fintech.uzbankcard.navui.onclikc.ICardColorOnClick
 
-class CardsColorAdapter(val iCardColorOnClick: ICardColorOnClick):ListAdapter<CardColorModel,CardsColorAdapter.CardVH>(ColorCallback()){
+class CardsColorAdapter(val iCardColorOnClick: ICardColorOnClick):
+    ListAdapter<CardColorModel,CardsColorAdapter.CardVH>(ColorCallback()){
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CardVH {
         val view =parent.inflate(LayoutInflater.from(parent.context), R.layout.card_color_item)

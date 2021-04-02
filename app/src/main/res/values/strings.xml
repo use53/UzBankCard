@@ -58,4 +58,8 @@
     <string name="add_card_color">oldin karta kiritng</string>
     <string name="bloc_card">Karta bloklandi</string>
     <string name="vertical">ko\'rinish</string>
+    <string name="dialog_nocard">"karta kiritilmagan "</string>
+    <string name="dialog_delete">Mofaqiyatli o\'chirildi</string>
+    <string name="dialog_save">"To'lovlar shu kartadan amalga oshiriladi "</string>
+    <string name="dialog_save_error">Karta hali mavjud emas</string>
 </resources>

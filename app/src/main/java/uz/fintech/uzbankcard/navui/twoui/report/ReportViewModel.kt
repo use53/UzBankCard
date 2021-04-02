@@ -20,31 +20,34 @@ import uz.fintech.uzbankcard.utils.PreferenceManager
 interface IReportVM {
 
     fun loadItemRt(cardnumber: String)
-    fun updateMoney(money:String,oldmoney:String)
+    fun updateMoney(money: String, oldmoney: String)
 }
 
 class ReportViewModel(app: Application) : AndroidViewModel(app),
-        IReportVM {
+    IReportVM {
 
 
-private val reportRepo by lazyFast {
-    ReportRepo.ReportRepoInstanse(app.applicationContext) }
-    private var loadCardVM= MutableLiveData<CardModel>()
-    private var ldStatusVM=MutableLiveData<NetworkStatus>()
+    private val reportRepo by lazyFast {
+        ReportRepo.ReportRepoInstanse(app.applicationContext)
+    }
+    private var loadCardVM = MutableLiveData<CardModel>()
+    private var ldStatusVM = MutableLiveData<NetworkStatus>()
+
     override fun loadItemRt(cardnumber: String) {
-       reportRepo.loadItemRt(cardnumber)
-        loadCardVM=reportRepo.ldCardModel()
-}
-    fun ldcardModelVM():LiveData<CardModel>{
+        reportRepo.loadItemRt(cardnumber)
+        loadCardVM = reportRepo.ldCardModel()
+    }
+
+    fun ldcardModelVM(): LiveData<CardModel> {
         return loadCardVM
     }
 
-    override fun updateMoney(money: String,oldmoney: String) {
-        reportRepo.updateMoneyRepo(money,oldmoney)
+    override fun updateMoney(money: String, oldmoney: String) {
+        reportRepo.updateMoneyRepo(money, oldmoney)
     }
 
-    fun ldStatus():LiveData<NetworkStatus>{
-        ldStatusVM=reportRepo.ldStatus()
+    fun ldStatus(): LiveData<NetworkStatus> {
+        ldStatusVM = reportRepo.ldStatus()
         return ldStatusVM
     }
 

@@ -17,8 +17,14 @@ interface PaymentDao{
     fun loadAllPt():Single<MutableList<PaymentHistory>>
 
     @Delete
-    fun deleteItem(payment:PaymentHistory)
+    fun deleteItem(payment:PaymentHistory):Completable
 
     @Query("select * from PaymentHistory where ptId=:id")
-    fun SearchIrem(id:Long):PaymentHistory
+    fun SearchIrem(id:Long):Single<PaymentHistory>
+
+    @Query("DELETE FROM paymenthistory WHERE ptId=:it")
+    fun paymentDelete(it:Long):Completable
+
+    @Query("select * from PaymentHistory where datePt=:item")
+    fun paymentListAll(item:String):Single<MutableList<PaymentHistory>>
 }

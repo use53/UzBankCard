@@ -10,6 +10,8 @@ import uz.fintech.uzbankcard.model.CardColorModel
 import uz.fintech.uzbankcard.model.CardModel
 import uz.fintech.uzbankcard.navui.database.BuilderDB
 import uz.fintech.uzbankcard.navui.database.HistoryDB
+import uz.fintech.uzbankcard.navui.database.paymentsave.PaymentHistory
+import uz.fintech.uzbankcard.network.NetworkStatus
 import uz.fintech.uzbankcard.utils.PreferenceManager
 
 class CardsRepo (ctx: Context){
@@ -27,6 +29,8 @@ class CardsRepo (ctx: Context){
     }
     private val preference by lazyFast { PreferenceManager.instanse(ctx) }
     private val db by lazyFast { BuilderDB.instanse(ctx) }
+    private val cardsStatus=MutableLiveData<CardsStatus>()
+    private val searchList=MutableLiveData<MutableList<PaymentHistory>>()
 
     private val ldColor=MutableLiveData<MutableList<CardColorModel>>()
     fun listColor(){
@@ -43,11 +47,24 @@ class CardsRepo (ctx: Context){
     }
 
     fun MainUpdateCard(cardModel: CardModel){
+        if (preference.isCardModelSave.length>3){
         preference.isCardSaveBoolean=true
         preference.isCardModelSave=cardModel.cardnum.toString()
+            cardsStatus.postValue(CardsStatus.SaveCardSuccess)
+        }else{
+            //
+           cardsStatus.postValue(CardsStatus.SaveCardError)
+        }
+
     }
 
     fun cardDelete(cardModel: CardModel){
+        if (preference.isCardModelSave==cardModel.cardnum){
+            preference.isCardModelSave=""
+            preference.isCardSaveBoolean=false
+
+
+        }
         db.getCardDao().loadFirst(cardModel.cardnum.toString())
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
@@ -65,5 +82,36 @@ class CardsRepo (ctx: Context){
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe()
+
+        //
+        cardsStatus.postValue(CardsStatus.DeleteCardSuccess)
     }
+    fun ldStatus(): MutableLiveData<CardsStatus> {
+        return cardsStatus
+    }
+
+    fun historyPaymentAllList(paymentHistory: String){
+        db.paymentdao().paymentListAll(paymentHistory)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .doOnError{
+
+            }
+            .doOnSuccess {
+                searchList.postValue(it)
+            }
+            .subscribe()
+
+    }
+    fun listSearch(): MutableLiveData<MutableList<PaymentHistory>> {
+        return searchList
+    }
+
+
+}
+
+sealed class CardsStatus{
+object DeleteCardSuccess:CardsStatus()
+object SaveCardSuccess:CardsStatus()
+object SaveCardError:CardsStatus()
 }
